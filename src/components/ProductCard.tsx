@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import type { Product } from '../data/types'
 import { discountPercent } from '../data/products'
+import { defaultSizeForProduct } from '../data/productSizes'
 import { useCart } from '../context/CartContext'
 
 function Stars({ rating }: { rating: number }) {
@@ -32,11 +33,11 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
     (e: React.MouseEvent) => {
       e.preventDefault()
       e.stopPropagation()
-      addToCart(product.id)
+      addToCart(product.id, { size: defaultSizeForProduct(product), qty: 1 })
       setAdded(true)
       window.setTimeout(() => setAdded(false), 1800)
     },
-    [addToCart, product.id]
+    [addToCart, product]
   )
 
   return (

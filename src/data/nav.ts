@@ -3,6 +3,16 @@ export const topMarquee =
 
 export const megaNav = [
   {
+    label: 'SHOP ALL',
+    href: '/shop',
+    children: [
+      { label: 'All products', href: '/shop' },
+      { label: 'New arrivals', href: '/collections/new-arrivals' },
+      { label: 'Sarees', href: '/collections/sarees' },
+      { label: 'Lehenga choli', href: '/collections/lehenga-choli' },
+    ],
+  },
+  {
     label: 'NEW ARRIVAL',
     href: '/collections/new-arrivals',
     children: [

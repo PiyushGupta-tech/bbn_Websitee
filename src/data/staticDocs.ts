@@ -13,7 +13,7 @@ export const staticDocs: Record<
     title: 'Contact Us',
     paragraphs: [
       'Email: care@bbn.demo',
-      'WhatsApp: +91 99999 99999',
+      'Quick questions: email us or use the contact form below.',
       'Hours: Mon–Sat, 10 AM – 7 PM IST',
       'For order help, sizing, or wholesale enquiries, use the form below (demo — does not submit).',
     ],

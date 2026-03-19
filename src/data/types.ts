@@ -20,6 +20,8 @@ export interface Product {
   rating: number
   reviewCount: number
   description: string
+  /** Optional override; otherwise derived from category in `getSizesForProduct` */
+  sizes?: string[]
 }
 
 export interface BlogPost {

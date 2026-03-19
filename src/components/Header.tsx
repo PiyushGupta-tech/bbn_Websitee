@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { megaNav, topMarquee } from '../data/nav'
 import { useCart } from '../context/CartContext'
+import { useWishlist } from '../context/WishlistContext'
+import { useAuth } from '../context/AuthContext'
 
 function IconMenu() {
   return (
@@ -22,6 +24,20 @@ function IconSearch() {
     <svg className="header-icon-svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden>
       <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" strokeWidth="2" />
       <path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M20 20l-4.2-4.2" />
+    </svg>
+  )
+}
+
+function IconHeart() {
+  return (
+    <svg className="header-icon-svg" width="22" height="22" viewBox="0 0 24 24" aria-hidden>
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+      />
     </svg>
   )
 }
@@ -95,6 +111,8 @@ export function Header() {
   const [q, setQ] = useState('')
   const navigate = useNavigate()
   const { totalQty } = useCart()
+  const { count: wishlistCount } = useWishlist()
+  const { user, logout } = useAuth()
 
   const submitSearch = useCallback(
     (e: React.FormEvent) => {
@@ -181,30 +199,45 @@ export function Header() {
             ))}
           </nav>
 
-          <form className="header-search-desktop" onSubmit={submitSearch} role="search">
-            <label htmlFor="header-search-input" className="visually-hidden">
-              Search products
-            </label>
-            <input
-              id="header-search-input"
-              type="search"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Search sarees, lehengas…"
-              autoComplete="off"
-              enterKeyHint="search"
-            />
-            <button
-              type="submit"
-              className="header-search-submit"
-              aria-label="Search"
-              disabled={!q.trim()}
-            >
-              <IconSearch />
-            </button>
-          </form>
+          <div className="header-search-cluster">
+            <span className="header-search-inline-label">Search products</span>
+            <form className="header-search-desktop" onSubmit={submitSearch} role="search">
+              <label htmlFor="header-search-input" className="visually-hidden">
+                Search products
+              </label>
+              <input
+                id="header-search-input"
+                type="search"
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder="Search sarees, lehengas…"
+                autoComplete="off"
+                enterKeyHint="search"
+              />
+              <button
+                type="submit"
+                className="header-search-submit"
+                aria-label="Search"
+                disabled={!q.trim()}
+              >
+                <IconSearch />
+              </button>
+            </form>
+          </div>
 
           <div className="header-actions">
+            <Link
+              to="/wishlist"
+              className="icon-btn icon-btn-wishlist"
+              aria-label={
+                wishlistCount > 0 ? `Wishlist, ${wishlistCount} items` : 'Wishlist'
+              }
+            >
+              <IconHeart />
+              {wishlistCount > 0 && (
+                <span className="cart-badge">{wishlistCount > 99 ? '99+' : wishlistCount}</span>
+              )}
+            </Link>
             <button
               type="button"
               className="icon-btn icon-btn-search-mobile"
@@ -223,6 +256,34 @@ export function Header() {
                 <span className="cart-badge">{totalQty > 99 ? '99+' : totalQty}</span>
               )}
             </Link>
+            <div className="header-auth">
+              {user ? (
+                <>
+                  <span className="header-auth-greeting" title={user.email}>
+                    Hi, {user.email.split('@')[0]}
+                  </span>
+                  <button
+                    type="button"
+                    className="header-auth-btn"
+                    onClick={() => logout()}
+                  >
+                    Log out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" className="header-auth-link">
+                    Log in
+                  </Link>
+                  <span className="header-auth-sep" aria-hidden>
+                    ·
+                  </span>
+                  <Link to="/signup" className="header-auth-link">
+                    Sign up
+                  </Link>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </header>
@@ -297,6 +358,33 @@ export function Header() {
             <Link to="/" onClick={() => setOpen(false)}>
               HOME
             </Link>
+            <Link to="/shop" onClick={() => setOpen(false)}>
+              All products
+            </Link>
+            <Link to="/wishlist" onClick={() => setOpen(false)}>
+              Wishlist
+            </Link>
+            {!user ? (
+              <>
+                <Link to="/login" onClick={() => setOpen(false)}>
+                  Log in
+                </Link>
+                <Link to="/signup" onClick={() => setOpen(false)}>
+                  Sign up
+                </Link>
+              </>
+            ) : (
+              <button
+                type="button"
+                className="mobile-nav-logout"
+                onClick={() => {
+                  logout()
+                  setOpen(false)
+                }}
+              >
+                Log out ({user.email.split('@')[0]})
+              </button>
+            )}
             {megaNav.map((item) => (
               <div key={item.label}>
                 <Link to={item.href} onClick={() => setOpen(false)}>

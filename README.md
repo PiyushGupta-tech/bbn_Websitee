@@ -1,6 +1,6 @@
 # bbn — Ethnic wear storefront (demo)
 
-A front-end demo for **bbn** — Indian ethnic wear e‑commerce. Includes animated UI, hover interactions, product grids, blog, category pages, and a working client-side cart. Shoppable video embeds reference an external partner catalog.
+A front-end demo for **bbn** — Indian ethnic wear e‑commerce. Includes animated UI, hover interactions, product grids, blog, category pages, and a working client-side cart. **Watch & Buy** uses a muted YouTube embed on the home section and floating widget.
 
 > **Note:** This is a **demo / learning project**. Product images use royalty-free stock photos (Unsplash) as stand-ins. Replace URLs in `src/data/` with your own assets for production.
 
@@ -10,7 +10,7 @@ A front-end demo for **bbn** — Indian ethnic wear e‑commerce. Includes anima
 - **Working navigation** — Mega-menu style header, mobile drawer, footer links.
 - **Pages** — Category listings, product detail, blog list & post, About, Contact, policies (Shipping, Returns, Privacy, Terms, FAQ), Wholesale, Track Order, Search.
 - **Cart** — Add to cart, quantity, localStorage persistence, cart page.
-- **Watch & Buy (Vizup)** — Plays bbn-branded shoppable videos from an external catalog (e.g. `vizup_wid=11158&vizup_vid=360307`) **inside** this site via a dev/preview proxy that removes frame blocking headers. Run `npm run dev` or `npm run preview` for embedded playback.
+- **Watch & Buy** — Homepage shows **three** vertical shoppable cards + fixed widget; **YouTube** embeds are **muted autoplay**, `controls=0`, same playlist (`src/data/watchBuyVideo.ts`). Optional: `src/data/vizupVideos.ts` remains for legacy Lavante/Vizup iframe URLs if you proxy them yourself.
 - **Motion** — Page transitions, scroll reveals, hover zoom on cards, button/link micro-interactions (see `docs/COMPONENTS.md`).
 
 ### Vizup embed on your own domain (production)
@@ -45,7 +45,6 @@ Or set **`VITE_VIZUP_IFRAME_BASE`** at build time to your proxy URL (must end wi
 ## Quick Start
 
 ```bash
-cd lavanya
 npm install
 npm run dev
 ```
@@ -56,6 +55,10 @@ Open **http://localhost:5173**
 npm run build   # production build
 npm run preview # preview build
 ```
+
+### Hosting: footer & deep links
+
+Footer links use **client-side routing** (`/pages/…`, `/search`, `/blogs`, etc.). On **Netlify**, `public/_redirects` is copied into `dist/` so refreshing or opening a deep URL still loads the app. On **Vercel**, `vercel.json` does the same. For **Apache**, add `FallbackResource /index.html` or equivalent; for **GitHub Pages**, use a 404.html SPA workaround or host elsewhere.
 
 ## Project Docs
 

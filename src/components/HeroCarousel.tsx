@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { stock } from '../data/images'
+import { heroFullBleed } from '../data/images'
 
 const slides = [
-  // First slide: Salwar Kameez hero (matches reference screenshot)
   {
     eyebrow: 'SALWAR KAMEEZ',
     title: 'Trendy Twists on Tradition',
     sub: 'The New Age Ethnic Look',
     cta: 'COLLECTION',
     href: '/collections/salwar-kameez',
-    bg: 'https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQkk-IIBXlyxDvzQd643my2_4GeRbHDJEgZIPoztzOxWvYrVKY147jPBTHCRyJLsyGBMQB7bf4YsiJWv5NfC0o0jxU_79bBpVtQTBKIHXOnLbvUbmwZzRj7ABK_&usqp=CAc',
+    bg: heroFullBleed.salwar,
   },
   {
     eyebrow: 'SAREE GLAM',
@@ -19,15 +18,7 @@ const slides = [
     sub: 'Luxury in Every Drape',
     cta: 'ORDER NOW',
     href: '/collections/sarees',
-    bg: stock.hero1,
-  },
-  {
-    eyebrow: 'REGAL LEHENGAS',
-    title: 'The Essence of Royalty',
-    sub: 'Feel The Magic of Heritage',
-    cta: 'SHOP NOW',
-    href: '/collections/lehenga-choli',
-    bg: stock.hero2,
+    bg: heroFullBleed.saree,
   },
   {
     eyebrow: 'INDO-WESTERN',
@@ -35,7 +26,7 @@ const slides = [
     sub: 'Essence of Celebration',
     cta: 'COLLECTION',
     href: '/collections/indo-western',
-    bg: 'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQej0U4C2hFfyCu3NByNsx5oTNX6qgfmtyxn2qXeky6uqnRUDIdjStB3kOXgGM3IrBORQALDnE-tB_cLsaqRTaIkLuJ7Gol-lDgI9Z0grQ&usqp=CAc',
+    bg: heroFullBleed.indoWestern,
   },
 ]
 
@@ -54,8 +45,8 @@ export function HeroCarousel() {
 
   const s = slides[i]
 
-  /* REGAL LEHENGAS + SALWAR KAMEEZ — red frame around image */
-  const redFrameHero = i === 1 || i === 2
+  /* SAREE GLAM — deep red frame around image (matches top banner styling) */
+  const redFrameHero = i === 1
 
   return (
     <section

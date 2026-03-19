@@ -7,9 +7,7 @@ import { ProductSection } from '../components/ProductSection'
 import { CouplePairsBanner } from '../components/CouplePairsBanner'
 import { HomeReviews } from '../components/HomeReviews'
 import { BlogTeaser } from '../components/BlogTeaser'
-import { InstagramRow } from '../components/InstagramRow'
 import { SuccessStories } from '../components/SuccessStories'
-import { TrustBadges } from '../components/TrustBadges'
 import { WatchAndBuyVideos } from '../components/WatchAndBuyVideos'
 import { getProductsByCategory } from '../data/products'
 
@@ -134,9 +132,7 @@ export function Home() {
 
       <HomeReviews />
       <BlogTeaser />
-      <InstagramRow />
       <SuccessStories />
-      <TrustBadges />
     </>
   )
 }

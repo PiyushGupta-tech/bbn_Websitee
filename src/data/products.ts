@@ -12,7 +12,8 @@ function p(
   image: string,
   rating: number,
   reviews: number,
-  description: string
+  description: string,
+  sizes?: string[]
 ): Product {
   const imgs = [image, stock.b, stock.c].filter((x, i, arr) => arr.indexOf(x) === i)
   return {
@@ -27,6 +28,7 @@ function p(
     rating,
     reviewCount: reviews,
     description,
+    ...(sizes?.length ? { sizes } : {}),
   }
 }
 
@@ -38,7 +40,7 @@ const raw: Product[] = [
     'new-arrivals',
     19999,
     59999,
-    stock.a,
+    'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTKwM0vG8jRH4R-k3jlzheiSXCcUD8UstVeonSvTRv_7buv7yHRiTKMliOtzu43a_ICqNk0SXOuzrCdNfSM9Mb4hPK9gEDMggXBF_C9MUWbL81tOSpOxgwdyQ',
     5,
     48,
     'Handcrafted bridal lehenga with mirror and sequin work. Perfect for weddings and receptions.'
@@ -290,7 +292,7 @@ const raw: Product[] = [
     'indo-western',
     6999,
     14999,
-    stock.v,
+    'https://ethnicvastram.com/wp-content/uploads/2025/12/Alizeh-5017-1.webp',
     5,
     2,
     'Jacquard skirt with waistcoat.'
@@ -302,9 +304,9 @@ const raw: Product[] = [
     'indo-western',
     6999,
     16999,
-    stock.w,
+    'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQN0fGV2Pirbuj-HhfflbUHYB_6CodvpfZAqyaNcq0abChdCEnly5QPokffb1LZoqLNn9Yx1pTJYtVpst01bfHad9eVVvF3cSXkwqUxip3E',
     5,
-    2,
+    5,
     'Satin sharara ready to wear.'
   ),
   p(
@@ -314,7 +316,7 @@ const raw: Product[] = [
     'indo-western',
     6999,
     19999,
-    stock.x,
+    'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRKJ24y4Fv52jx9Bs-kWNhBeLipZaPXZ6k-tNbabf6lIgP5C_2qJH-xsW4mnkpmyrOhJCCFFffMXsc0xbmrmwjmbyxLjBPV6ZChjnbS-DGvutYLwDv102w4gw',
     5,
     2,
     'Jacket suit with cut dana work.'
@@ -368,37 +370,13 @@ const raw: Product[] = [
     'Rani pink georgette set.'
   ),
   p(
-    '29',
-    'kundan-necklace-set',
-    'Antique Kundan Necklace Set with Earrings',
-    'jewellery',
-    4999,
-    8999,
-    stock.e,
-    5,
-    12,
-    'Traditional kundan necklace set.'
-  ),
-  p(
-    '30',
-    'bridal-choker-set',
-    'Bridal Polki Choker with Maang Tikka',
-    'jewellery',
-    7999,
-    12999,
-    stock.f,
-    4,
-    8,
-    'Polki choker for brides.'
-  ),
-  p(
     '31',
     'designer-gown-magenta',
     'Magenta Pink Handcrafted Designer Gown With Vibrant Embellished Details',
     'gown-dresses',
     13999,
     39999,
-    stock.g,
+    'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTlCiRi62Qh5xcOZvhrdFXXnSNRjVgu7f-gby3pjVrRVgKGGogNvQgT29DYoMwfpSz7TW8kK2wmUcSYORGZAosW7lHA1LYDGFp2KtGAWbufPxysS9Zcwnm9VA',
     5,
     3,
     'Evening gown with embellishments.'
@@ -410,7 +388,7 @@ const raw: Product[] = [
     'gown-dresses',
     8999,
     18999,
-    stock.h,
+    'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRcXGdYja1WJ1WFtPYr0epEylqtaCRhExVnFiXZGNKPGrVsnEZ2LIrSJTsDgpjR2PyymIDr9JVPsszg4vm_LeWSUK9wsEyBLgGf1vtBrBTG2T2-1O8ZmAcRAw',
     4,
     5,
     'Sequin floor length gown.'
@@ -422,10 +400,10 @@ const raw: Product[] = [
     'couple-pairs',
     45999,
     99999,
-    stock.couple,
+    photoForSlug('couple-coordinated-sherwani-lehenga', stock.couple),
     5,
     7,
-    'Matching couple ethnic set for weddings.'
+    'Coordinated sherwani and lehenga couple set — perfect for weddings and receptions.'
   ),
   p(
     '34',
@@ -434,10 +412,202 @@ const raw: Product[] = [
     'couple-pairs',
     38999,
     79999,
-    stock.j,
+    photoForSlug('couple-pastel-set', stock.couple),
     5,
     4,
-    'Pastel coordinated wedding wear.'
+    'Pastel coordinated couple wedding set — soft tones for ceremonies and receptions.'
+  ),
+  p(
+    '35',
+    'rudraprayag-georgette-embroidered-palazzo-suit',
+    'RUDRAPRAYAG Georgette Embroidered Work Semi Stitched Long Top With Palazzo Salwar Suit For Women',
+    'salwar-kameez',
+    2299,
+    2299,
+    photoForSlug('rudraprayag-georgette-embroidered-palazzo-suit', stock.v),
+    4,
+    5,
+    'Georgette embroidered semi-stitched long top with palazzo — elegant salwar suit for everyday and festive wear.'
+  ),
+  p(
+    '36',
+    'womens-ethnic-motifs-embroidered-kurta-set',
+    "Women's Ethnic Motifs Embroidered Kurta with Trousers and Dupatta",
+    'salwar-kameez',
+    2299,
+    8050,
+    photoForSlug('womens-ethnic-motifs-embroidered-kurta-set', stock.w),
+    4,
+    8,
+    'Ethnic motifs embroidered kurta with matching trousers and dupatta — complete three-piece salwar suit set.'
+  ),
+  p(
+    '37',
+    'libas-peach-chiffon-straight-suit-dupatta',
+    'Libas Peach Embroidered Poly Chiffon Straight Suit with Dupatta',
+    'salwar-kameez',
+    2199,
+    2199,
+    photoForSlug('libas-peach-chiffon-straight-suit-dupatta', stock.x),
+    4,
+    6,
+    'Peach poly chiffon straight suit with embroidery and matching dupatta — Libas ethnic three-piece set.'
+  ),
+  p(
+    '38',
+    'klosia-solid-embroidery-kurta-pant-dupatta',
+    'Klosia Women Solid Embroidery Kurta and pant set With Dupatta',
+    'salwar-kameez',
+    799,
+    799,
+    photoForSlug('klosia-solid-embroidery-kurta-pant-dupatta', stock.y),
+    4,
+    5,
+    'Solid kurta with embroidery, matching pants and dupatta — affordable three-piece Klosia set.'
+  ),
+  p(
+    '39',
+    'kalini-regular-republic-day-kurta',
+    'KALINI Regular Republic Day Kurta',
+    'salwar-kameez',
+    863,
+    863,
+    photoForSlug('kalini-regular-republic-day-kurta', stock.z),
+    4,
+    4,
+    'KALINI regular-fit Republic Day kurta — ethnic cotton-blend kurta for patriotic and festive wear.'
+  ),
+  p(
+    '40',
+    'suppar-sleave-womens-embroidered-kurta-pant-dupatta',
+    "Suppar Sleave Women's Stylish Colorful Fancy Heavy Embroidered Kurta Pant & Dupatta",
+    'salwar-kameez',
+    1499,
+    1499,
+    photoForSlug('suppar-sleave-womens-embroidered-kurta-pant-dupatta', stock.stock1),
+    4,
+    5,
+    'Colorful fancy heavy embroidered kurta with matching pants and dupatta — stylish three-piece Suppar Sleave set.'
+  ),
+  p(
+    '41',
+    'shining-diva-crystal-diamonds-necklace-jewellery-set',
+    "Shining Diva Women's Fancy Wedding Party Crystal Diamonds Necklace Jewellery Set",
+    'jewellery',
+    624,
+    625,
+    photoForSlug('shining-diva-crystal-diamonds-necklace-jewellery-set', stock.stock2),
+    5,
+    28,
+    'Crystal and diamond-look necklace jewellery set for weddings and parties — Shining Diva fancy matching set.'
+  ),
+  p(
+    '42',
+    'giva-anushka-sharma-solitaire-heart-pendant',
+    'Giva Anushka Sharma Solitaire Heart Pendant',
+    'jewellery',
+    1959,
+    2889,
+    photoForSlug('giva-anushka-sharma-solitaire-heart-pendant', stock.stock3),
+    4.8,
+    340,
+    'Giva solitaire heart pendant from the Anushka Sharma collection — sterling silver with elegant heart design, gift-ready.'
+  ),
+  p(
+    '43',
+    'rubans-24k-gold-plated-floral-studded-necklace-set',
+    'Rubans 24K Gold-Plated Floral Design Studded Necklace Set',
+    'jewellery',
+    688,
+    903,
+    photoForSlug('rubans-24k-gold-plated-floral-studded-necklace-set', stock.stock4),
+    4.5,
+    41,
+    'Rubans 24K gold-plated floral studded necklace set — elegant party and festive jewellery with matching look.'
+  ),
+  p(
+    '44',
+    'shining-diva-womens-traditional-kundan-necklace',
+    "Shining Diva Women's Traditional Kundan Necklace",
+    'jewellery',
+    484,
+    484,
+    photoForSlug('shining-diva-womens-traditional-kundan-necklace', stock.stock1),
+    4.5,
+    36,
+    'Traditional kundan-style necklace by Shining Diva — perfect for weddings, festivals, and ethnic occasions.'
+  ),
+  p(
+    '45',
+    'zaveri-pearls-gold-plated-kundan-beaded-jewellery-set',
+    'Zaveri Pearls Gold-Plated Kundan Stone Studded & Beaded Jewellery Set',
+    'jewellery',
+    1565,
+    2499,
+    photoForSlug('zaveri-pearls-gold-plated-kundan-beaded-jewellery-set', stock.stock2),
+    4.6,
+    52,
+    'Gold-plated kundan stone studded and beaded jewellery set by Zaveri Pearls — ideal for weddings, festivals, and ethnic occasions.'
+  ),
+  p(
+    '46',
+    'shining-diva-womens-choker-antique-kundan-necklace-jewellery-set',
+    "Shining Diva Women's Latest Choker Design Antique Kundan Traditional Necklace Jewellery Set",
+    'jewellery',
+    20000,
+    32500,
+    photoForSlug('shining-diva-womens-choker-antique-kundan-necklace-jewellery-set', stock.stock3),
+    4.5,
+    64,
+    'Antique kundan choker-style traditional necklace jewellery set by Shining Diva — weddings, festivals, and ethnic wear.'
+  ),
+  p(
+    '47',
+    'torani-shereen-mehre-zara-lehenga-couple-set',
+    'Torani Shereen Kaur and Her Partner Custom Mehre Zara Lehenga Set',
+    'couple-pairs',
+    367500,
+    367500,
+    photoForSlug('torani-shereen-mehre-zara-lehenga-couple-set', stock.couple),
+    5,
+    3,
+    'Torani custom Mehre Zara lehenga couple set — coordinated bridal look for Shereen Kaur and partner, luxury wedding wear.'
+  ),
+  p(
+    '48',
+    'couple-georgette-silk-lehenga-choli-kurta-pajama-set',
+    'Couple Indian Matching Georgette Silk Lehenga Choli and Kurta Pajama Set',
+    'couple-pairs',
+    5049,
+    5049,
+    photoForSlug('couple-georgette-silk-lehenga-choli-kurta-pajama-set', stock.couple),
+    4.5,
+    22,
+    'Matching Indian couple set — georgette silk lehenga choli for her and kurta pajama for him, coordinated festive and wedding wear.'
+  ),
+  p(
+    '49',
+    'ice-blue-heritage-embroidered-couple-matching-outfit',
+    'Ice Blue Heritage Embroidered Ethnic Perfect Couple Matching Outfit',
+    'couple-pairs',
+    6249,
+    6249,
+    photoForSlug('ice-blue-heritage-embroidered-couple-matching-outfit', stock.couple),
+    4.6,
+    31,
+    'Ice blue heritage embroidered ethnic couple set — coordinated matching outfit for him and her, perfect for weddings and festive occasions.'
+  ),
+  p(
+    '50',
+    'archittam-fashion-exquisite-couple-dress',
+    'Archittam Fashion Exquisite Couple Dress',
+    'couple-pairs',
+    1899,
+    1899,
+    photoForSlug('archittam-fashion-exquisite-couple-dress', stock.couple),
+    4.5,
+    18,
+    'Archittam Fashion exquisite couple dress — coordinated ethnic matching outfit for him and her, ideal for parties and festive occasions.'
   ),
 ]
 
@@ -446,6 +616,11 @@ export const products: Product[] = raw
 export function discountPercent(product: Product): number {
   if (product.compareAtPrice <= product.price) return 0
   return Math.round((1 - product.price / product.compareAtPrice) * 100)
+}
+
+/** Every product in the catalog (sorted A–Z for the shop-all page). */
+export function getAllProducts(): Product[] {
+  return [...products].sort((a, b) => a.title.localeCompare(b.title, 'en'))
 }
 
 export function getProductsByCategory(categorySlug: string): Product[] {

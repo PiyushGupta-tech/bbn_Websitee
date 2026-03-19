@@ -1,51 +1,78 @@
 import { motion } from 'framer-motion'
-import { VIZUP_VIDEO_IDS, vizupIframeSrc } from '../data/vizupVideos'
+import { Link } from 'react-router-dom'
+import {
+  WATCH_BUY_VIDEOS,
+  buildWatchBuyYoutubeEmbedSrc,
+  watchBuyYoutubeThumbnailUrl,
+} from '../data/watchBuyVideo'
 
 export function WatchAndBuyVideos() {
-  const mainVid = VIZUP_VIDEO_IDS[0]
-  const iframeSrc = vizupIframeSrc(mainVid)
-
   return (
     <section className="watch-buy-section" aria-labelledby="watch-buy-heading">
       <div className="watch-buy-section-bg" aria-hidden />
       <div className="container watch-buy-inner">
-        <div className="watch-buy-layout">
-          <header className="watch-buy-header">
-            <span className="watch-buy-eyebrow">Shoppable video</span>
-            <motion.h2
-              id="watch-buy-heading"
-              className="watch-buy-title"
-              initial={{ opacity: 0, y: 8 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            >
-              Watch &amp; Buy
-            </motion.h2>
-            <p className="watch-buy-sub">
-              See the key pieces in motion — play the shoppable video and explore the full bridal story.
-            </p>
-          </header>
+        <header className="watch-buy-header watch-buy-header--grid">
+          <motion.h2
+            id="watch-buy-heading"
+            className="watch-buy-title watch-buy-title--simple"
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          >
+            Watch &amp; Buy
+          </motion.h2>
+          <p className="watch-buy-sub watch-buy-sub--compact">
+            Clips play <strong>muted</strong> and start automatically. Tap a look to shop.
+          </p>
+        </header>
 
-          <div className="watch-buy-stage">
-            <div className="watch-buy-card">
-              <div className="watch-buy-player">
-                <div className="watch-buy-frame">
-                  <div className="watch-buy-frame-shine" aria-hidden />
-                  <div className="watch-buy-iframe-inner">
-                    <iframe
-                      title="Shoppable bridal look"
-                      src={iframeSrc}
-                      className="watch-buy-iframe"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-                      allowFullScreen
-                      referrerPolicy="no-referrer-when-downgrade"
-                    />
+        <div className="watch-buy-grid" role="list">
+          {WATCH_BUY_VIDEOS.map((v) => {
+            const src = buildWatchBuyYoutubeEmbedSrc(v.id, v.startSeconds)
+            const thumb = watchBuyYoutubeThumbnailUrl(v.id)
+            return (
+              <article key={v.id} className="watch-buy-stack-card" role="listitem">
+                <div className="watch-buy-stack-player">
+                  <div className="watch-buy-vertical-frame">
+                    <div className="watch-buy-vertical-crop">
+                      <iframe
+                        title={`Watch & Buy — ${v.description.slice(0, 48)}`}
+                        src={src}
+                        className="watch-buy-iframe-vertical"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen={false}
+                        referrerPolicy="strict-origin-when-cross-origin"
+                      />
+                    </div>
+                    <div className="watch-buy-video-brand" aria-hidden>
+                      bbn <span className="watch-buy-video-brand-light">FASHION</span>
+                    </div>
+                    <div className="watch-buy-video-bottom-overlay" aria-hidden>
+                      <img src={thumb} alt="" className="watch-buy-video-thumb" width={44} height={44} />
+                      <p className="watch-buy-video-desc">{v.description}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
+
+                <div className="watch-buy-stack-cta">
+                  <Link to={v.shopHref} className="watch-buy-cta-main">
+                    Add To Cart
+                  </Link>
+                  <span className="watch-buy-cta-divider" aria-hidden />
+                  <Link
+                    to={v.shopHref}
+                    className="watch-buy-cta-more"
+                    aria-label={`More options for ${v.description.slice(0, 40)}`}
+                  >
+                    <span className="watch-buy-cta-chevron" aria-hidden>
+                      ▼
+                    </span>
+                  </Link>
+                </div>
+              </article>
+            )
+          })}
         </div>
       </div>
     </section>

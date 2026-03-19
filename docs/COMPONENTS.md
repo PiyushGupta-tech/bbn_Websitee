@@ -6,9 +6,9 @@
 |-----------|------|
 | `Header` | Top bar promo, socials, logo, desktop nav + mega dropdowns, search icon, cart badge, mobile menu. |
 | `Footer` | About blurb, link columns, newsletter, payment icons, copyright. |
-| `Layout` | Wraps children with Header + Footer + floats (WhatsApp, currency pill). On routes other than `/`, renders `VizupVideoWidget` (compact shoppable-video strip with prev/next on the sides). |
-| `VizupVideoWidget` | Fixed right-side panel: iframe cycles through 16 Vizup video IDs; **›** / **‹** buttons; minimize to pill; “Open full screen” if embedding is blocked. |
-| `WatchAndBuyVideos` | Home “Watch and Buy” section: large 9:16 iframe + same prev/**next-on-right** pattern, dot index, external shop link. |
+| `Layout` | Wraps children with Header + Footer. |
+| `VizupVideoWidget` | Fixed right-side panel: same muted YouTube as Watch & Buy (`watchBuyVideo.ts`); minimize control. |
+| `WatchAndBuyVideos` | Home “Watch and Buy”: **3** vertical 9:16 cards; muted autoplay, hidden controls (`watchBuyVideo.ts` + `buildWatchBuyYoutubeEmbedSrc`). |
 | `PageTransition` | Framer Motion `AnimatePresence` + `motion.main` for route enter/exit. |
 
 ## Home sections
@@ -18,14 +18,14 @@
 | `HeroCarousel` | Auto-advance slides; dots; parallax-style subtle scale on active slide; CTA hover lift. |
 | `CategoryCircles` | Circle images scale + shadow on hover; label underline animation. |
 | `MarqueeBar` | Infinite horizontal scroll (CSS animation). |
-| `vizupVideos.ts` | `VIZUP_VIDEO_IDS` + `vizupVideoUrl()` for `bbnfashion.com/?vizup_wid=11158&vizup_vid=…`. |
+| `watchBuyVideo.ts` | `WATCH_BUY_VIDEOS[]` (homepage Watch & Buy clips), playlist id, `buildWatchBuyYoutubeEmbedSrc` / `watchBuyYoutubeEmbedSrc()` (autoplay, mute, controls=0, loop). |
+| `vizupVideos.ts` | Legacy Lavante/Vizup IDs + `vizupIframeSrc()` if you use a same-origin proxy. |
 | `ProductSection` | Section title fade-in on scroll; “View all” button hover. |
 | `ProductCard` | Image zoom, shadow lift, discount/sale badges; stars; price; quick “Add” on hover overlay. |
 | `CouplePairsBanner` | Split layout; image subtle ken-burns; button arrow slide. |
 | `ReviewsMarquee` | Horizontal scrolling review cards. |
 | `BlogTeaser` | Card lift + image zoom on hover. |
-| `InstagramRow` | Image zoom + overlay gradient on hover. |
-| `SuccessStories` | Card scale on hover. |
+| `SuccessStories` | B2B testimonial cards: gold accent bar, tags, stars, verified badge; lift + shadow on hover; scroll-in animation. |
 | `TrustBadges` | Icon pulse on hover. |
 
 ## Global hover patterns

@@ -1,0 +1,2 @@
+# Netlify / similar: SPA fallback so deep links (e.g. /pages/shipping-policy) load the app
+/*    /index.html   200

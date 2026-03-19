@@ -2,6 +2,7 @@ import { AnimatePresence } from 'framer-motion'
 import { Outlet, useLocation } from 'react-router-dom'
 import { Header } from './Header'
 import { Footer } from './Footer'
+import { ScrollToTop } from './ScrollToTop'
 import { motion } from 'framer-motion'
 
 function PageMotion() {
@@ -23,26 +24,12 @@ function PageMotion() {
 }
 
 export function Layout() {
-  const { pathname } = useLocation()
   return (
     <>
+      <ScrollToTop />
       <Header />
       <PageMotion />
       <Footer />
-      <div className="float-stack-end">
-        <div className="float-currency" title="Currency">
-          <span aria-hidden>🇮🇳</span> INR
-        </div>
-        <a
-          className="float-wa"
-          href="https://wa.me/919999999999"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="WhatsApp"
-        >
-          💬
-        </a>
-      </div>
     </>
   )
 }

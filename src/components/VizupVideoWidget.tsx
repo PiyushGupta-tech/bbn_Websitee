@@ -1,11 +1,11 @@
-import { useState, useCallback, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { VIZUP_VIDEO_IDS, vizupIframeSrc } from '../data/vizupVideos'
+import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import { watchBuyYoutubeEmbedSrc } from '../data/watchBuyVideo'
 
 const STORAGE_MINI = 'bbn-vizup-minimized'
 
+/** Fixed panel: same muted YouTube as homepage Watch & Buy */
 export function VizupVideoWidget() {
-  const [index, setIndex] = useState(0)
   const [minimized, setMinimized] = useState(() => {
     try {
       return sessionStorage.getItem(STORAGE_MINI) === '1'
@@ -22,16 +22,7 @@ export function VizupVideoWidget() {
     }
   }, [minimized])
 
-  const next = useCallback(() => {
-    setIndex((i) => (i + 1) % VIZUP_VIDEO_IDS.length)
-  }, [])
-
-  const prev = useCallback(() => {
-    setIndex((i) => (i - 1 + VIZUP_VIDEO_IDS.length) % VIZUP_VIDEO_IDS.length)
-  }, [])
-
-  const vid = VIZUP_VIDEO_IDS[index]
-  const iframeSrc = vizupIframeSrc(vid)
+  const iframeSrc = watchBuyYoutubeEmbedSrc()
 
   if (minimized) {
     return (
@@ -42,10 +33,10 @@ export function VizupVideoWidget() {
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         whileHover={{ scale: 1.05 }}
-        aria-label="Open shop videos"
+        aria-label="Open Watch & Buy video"
       >
         <span className="vizup-minimized-icon">▶</span>
-        <span className="vizup-minimized-text">Videos</span>
+        <span className="vizup-minimized-text">Video</span>
       </motion.button>
     )
   }
@@ -69,52 +60,18 @@ export function VizupVideoWidget() {
         </button>
       </div>
 
-      <div className="vizup-widget-body">
-        <button
-          type="button"
-          className="vizup-nav vizup-nav-prev"
-          onClick={prev}
-          aria-label="Previous video"
-        >
-          ‹
-        </button>
-
-        <div className="vizup-frame-wrap">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={vid}
-              className="vizup-iframe-inner"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <iframe
-                title={`Shop video ${index + 1}`}
-                src={iframeSrc}
-                className="vizup-iframe"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-                allowFullScreen
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </motion.div>
-          </AnimatePresence>
+      <div className="vizup-widget-body vizup-widget-body-single">
+        <div className="vizup-frame-wrap vizup-frame-wrap--vertical">
+          <div className="vizup-iframe-inner vizup-vertical-crop">
+            <iframe
+              title="Watch & Buy — featured look (YouTube, muted)"
+              src={iframeSrc}
+              className="vizup-iframe vizup-iframe-vertical"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+          </div>
         </div>
-
-        <button
-          type="button"
-          className="vizup-nav vizup-nav-next"
-          onClick={next}
-          aria-label="Next video"
-        >
-          ›
-        </button>
-      </div>
-
-      <div className="vizup-widget-footer">
-        <span className="vizup-counter vizup-counter-only">
-          {index + 1} / {VIZUP_VIDEO_IDS.length}
-        </span>
       </div>
     </motion.div>
   )
