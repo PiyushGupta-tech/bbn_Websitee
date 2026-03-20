@@ -67,6 +67,7 @@ Footer links use **client-side routing** (`/pages/…`, `/search`, `/blogs`, etc
 | [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) | Folders, data flow, styling approach |
 | [docs/PAGES.md](./docs/PAGES.md) | Route map and page responsibilities |
 | [docs/COMPONENTS.md](./docs/COMPONENTS.md) | Reusable components and animation patterns |
+| [docs/CONSOLE_NOISE.md](./docs/CONSOLE_NOISE.md) | DevTools tip, CSP report-only, YouTube extension errors (what to ignore) |
 
 ## Using Your Own Screenshots
 

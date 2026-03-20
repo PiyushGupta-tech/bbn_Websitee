@@ -17,8 +17,9 @@ export function CartPage() {
 
   const handleCheckout = useCallback(() => {
     if (linesWithProduct.length === 0) return
-    navigate('/checkout')
-  }, [linesWithProduct.length, navigate])
+    const itemCount = linesWithProduct.reduce((n, { line }) => n + line.qty, 0)
+    navigate('/checkout', { state: { itemCount, subtotal } })
+  }, [linesWithProduct, subtotal, navigate])
 
   if (linesWithProduct.length === 0) {
     return (

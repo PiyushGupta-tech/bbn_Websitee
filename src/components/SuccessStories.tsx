@@ -49,7 +49,7 @@ export function SuccessStories() {
         <div className="container success-stories-section__container">
           <header className="success-stories-header">
             <p className="success-stories-eyebrow">B2B partner stories</p>
-            <h2 id="success-stories-heading" className="success-stories-title">
+            <h2 id="success-stories-heading" className="success-stories-title section-title--lehenga-cursive-royal-red">
               Success Stories That Inspire
             </h2>
             <p className="success-stories-lede">

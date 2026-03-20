@@ -38,7 +38,7 @@ const doubled = [...reviews, ...reviews, ...reviews]
 export function HomeReviews() {
   return (
     <section className="section container">
-      <h2 className="section-title">Let customers speak for us</h2>
+      <h2 className="section-title section-title--reviews-cursive-black">Let customers speak for us</h2>
       <p style={{ textAlign: 'center', color: 'var(--color-muted)', marginTop: -24, marginBottom: 32 }}>
         from 480+ reviews
       </p>

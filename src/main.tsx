@@ -1,3 +1,6 @@
+/** Must stay first: patches console before React loads (DevTools install hint). */
+import './devConsoleEarly'
+import './fonts'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'

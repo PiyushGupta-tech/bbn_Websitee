@@ -82,8 +82,28 @@ export function HeroCarousel() {
                 exit={{ opacity: 0, x: 16 }}
                 transition={{ duration: 0.4 }}
               >
-                <p className="hero-eyebrow">{s.eyebrow}</p>
-                <h1 className="hero-title">{s.title}</h1>
+                <p
+                  className={`hero-eyebrow${
+                    s.eyebrow === 'SALWAR KAMEEZ' ||
+                    s.eyebrow === 'SAREE GLAM' ||
+                    s.eyebrow === 'INDO-WESTERN'
+                      ? ' hero-eyebrow--salwar'
+                      : ''
+                  }`}
+                >
+                  {s.eyebrow}
+                </p>
+                <h1
+                  className={`hero-title${
+                    s.title === 'Designed for the Modern Diva' ||
+                    s.title === 'Trendy Twists on Tradition' ||
+                    s.title === 'Grace Draped in Tradition'
+                      ? ' hero-title--cursive-bold'
+                      : ''
+                  }`}
+                >
+                  {s.title}
+                </h1>
                 <p className="hero-sub">{s.sub}</p>
                 <Link to={s.href} className="btn-primary">
                   {s.cta}

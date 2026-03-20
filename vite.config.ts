@@ -21,6 +21,24 @@ function vizupProxy() {
 export default defineConfig({
   plugins: [react()],
   server: {
+    /**
+     * Explicit CSP for the dev server HTML/asset responses so Vite HMR + module scripts
+     * are allowed. (Some browsers/extensions also log separate report-only CSP noise;
+     * see docs/CONSOLE_NOISE.md.)
+     */
+    headers: {
+      'Content-Security-Policy': [
+        "default-src 'self'",
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+        "style-src 'self' 'unsafe-inline'",
+        "font-src 'self' data:",
+        "img-src 'self' data: https: blob:",
+        "connect-src 'self' https: ws: wss:",
+        'frame-src https://www.youtube.com https://www.youtube-nocookie.com',
+        "object-src 'none'",
+        "base-uri 'self'",
+      ].join('; '),
+    },
     proxy: {
       '/lavante-vizup': vizupProxy(),
     },

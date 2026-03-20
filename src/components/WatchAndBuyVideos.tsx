@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { LazyYoutubeIframe } from './LazyYoutubeIframe'
 import {
   WATCH_BUY_VIDEOS,
   buildWatchBuyYoutubeEmbedSrc,
@@ -28,7 +29,7 @@ export function WatchAndBuyVideos() {
         </header>
 
         <div className="watch-buy-grid" role="list">
-          {WATCH_BUY_VIDEOS.map((v) => {
+          {WATCH_BUY_VIDEOS.map((v, index) => {
             const src = buildWatchBuyYoutubeEmbedSrc(v.id, v.startSeconds)
             const thumb = watchBuyYoutubeThumbnailUrl(v.id)
             return (
@@ -36,13 +37,14 @@ export function WatchAndBuyVideos() {
                 <div className="watch-buy-stack-player">
                   <div className="watch-buy-vertical-frame">
                     <div className="watch-buy-vertical-crop">
-                      <iframe
+                      <LazyYoutubeIframe
                         title={`Watch & Buy — ${v.description.slice(0, 48)}`}
                         src={src}
                         className="watch-buy-iframe-vertical"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowFullScreen={false}
                         referrerPolicy="strict-origin-when-cross-origin"
+                        mountDelayMs={index * 280}
                       />
                     </div>
                     <div className="watch-buy-video-brand" aria-hidden>

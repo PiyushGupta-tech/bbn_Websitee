@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { LazyYoutubeIframe } from './LazyYoutubeIframe'
 import { watchBuyYoutubeEmbedSrc } from '../data/watchBuyVideo'
 
 const STORAGE_MINI = 'bbn-vizup-minimized'
@@ -63,12 +64,13 @@ export function VizupVideoWidget() {
       <div className="vizup-widget-body vizup-widget-body-single">
         <div className="vizup-frame-wrap vizup-frame-wrap--vertical">
           <div className="vizup-iframe-inner vizup-vertical-crop">
-            <iframe
+            <LazyYoutubeIframe
               title="Watch & Buy — featured look (YouTube, muted)"
               src={iframeSrc}
               className="vizup-iframe vizup-iframe-vertical"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
+              mountDelayMs={900}
             />
           </div>
         </div>

@@ -5,7 +5,7 @@ import { blogPosts } from '../data/blog'
 export function BlogTeaser() {
   return (
     <section className="section container">
-      <h2 className="section-title">Check Our Blog Posts</h2>
+      <h2 className="section-title section-title--lehenga-cursive-royal-red">Check Our Blog Posts</h2>
       <div className="blog-grid">
         {blogPosts.map((post, i) => (
           <motion.article

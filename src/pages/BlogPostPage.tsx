@@ -16,20 +16,17 @@ export function BlogPostPage() {
   }
 
   return (
-    <article className="prose-page">
+    <article className="prose-page blog-post-pro">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-        <img
-          src={post.image}
-          alt=""
-          style={{ width: '100%', borderRadius: 12, marginBottom: 32, maxHeight: 400, objectFit: 'cover' }}
-        />
-        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(1.75rem, 4vw, 2.5rem)' }}>
+        <p className="blog-pro-eyebrow" style={{ marginBottom: 8 }}>Blog</p>
+        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', marginTop: 0 }}>
           {post.title}
         </h1>
+        <img src={post.image} alt="" className="blog-post-hero" />
         {post.body.map((para, i) => (
           <p key={i}>{para}</p>
         ))}
-        <Link to="/blogs" style={{ display: 'inline-block', marginTop: 24, fontWeight: 600 }}>
+        <Link to="/blogs" className="blog-post-backlink">
           ← Back to blog
         </Link>
       </motion.div>
