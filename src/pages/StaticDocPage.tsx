@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { staticDocs } from '../data/staticDocs'
+import { staticDocs, contactLocation, contactPageContent } from '../data/staticDocs'
 
 const policyCards: Record<string, { heading: string; points: string[] }[]> = {
   'shipping-policy': [
@@ -178,46 +178,50 @@ const policyCards: Record<string, { heading: string; points: string[] }[]> = {
   ],
   about: [
     {
-      heading: 'Our Design Philosophy',
+      heading: 'Why Choose bbn?',
       points: [
-        'Celebration-first styling rooted in Indian heritage.',
-        'Modern silhouettes that remain timeless in photos and events.',
-        'Attention to drape, movement, and comfort across product lines.',
-      ],
-    },
-    {
-      heading: 'Craft & Quality',
-      points: [
-        'Fabric-led development with quality checkpoints.',
-        'Focus on finishing, fit consistency, and wearable construction.',
-        'Curated detailing that balances richness and versatility.',
-      ],
-    },
-    {
-      heading: 'Customer Experience',
-      points: [
-        'Clear policy communication and support-led order journeys.',
-        'Tracked shipping and proactive post-order updates.',
-        'Designed for both direct retail and B2B scaling.',
-      ],
-    },
-    {
-      heading: 'Brand Direction',
-      points: [
-        'A modern ethnic label built for global Indian fashion demand.',
-        'Digital-first storefront with storytelling, trust, and conversion focus.',
-        'This project is a polished demo representation of that vision.',
+        'Wide product range: From timeless sarees and bridal lehengas to suits, Indo-western edits, men’s ethnic wear, and jewelry — we have something for every celebration.',
+        'Competitive prices: Strong value across our fashion and jewelry collections, with regular deals and discounts.',
+        'Fast & reliable shipping: Quick delivery with multiple options including express and standard so your outfit arrives in time.',
+        'Secure shopping: Safe checkout with multiple trusted payment methods.',
+        'Excellent customer support: Our dedicated team is available Monday through Saturday to help with orders, sizing, and styling questions.',
+        'Easy returns: Simple, hassle-free returns on eligible items for your peace of mind.',
+        'Regular deals: Flash sales, clearance events, and special promotions on sarees, lehengas, suits, and curated picks every week.',
       ],
     },
   ],
 }
 
-function PolicyCards({ docKey }: { docKey: string }) {
+function ContactVisitNoteLink() {
+  const vn = contactPageContent.visitNote
+  const mark = 'Contact Us'
+  const i = vn.indexOf(mark)
+  if (i < 0) return <>{vn}</>
+  return (
+    <>
+      {vn.slice(0, i)}
+      <Link to="/pages/contact#contact-form">{mark}</Link>
+      {vn.slice(i + mark.length)}
+    </>
+  )
+}
+
+function PolicyCards({
+  docKey,
+  variant = 'default',
+}: {
+  docKey: string
+  variant?: 'default' | 'about'
+}) {
   const cards = policyCards[docKey]
   if (!cards) return null
 
+  const isAbout = variant === 'about'
+  const sectionClass = isAbout ? 'shipping-policy-pro shipping-policy-pro--about' : 'shipping-policy-pro'
+  const aria = isAbout ? 'Why choose bbn' : 'Detailed information'
+
   return (
-    <section className="shipping-policy-pro" aria-label="Detailed information">
+    <section className={sectionClass} aria-label={aria}>
       <div className="shipping-policy-grid">
         {cards.map((card) => (
           <article key={card.heading} className="shipping-policy-card">
@@ -231,13 +235,77 @@ function PolicyCards({ docKey }: { docKey: string }) {
         ))}
       </div>
 
-      <div className="shipping-policy-help">
-        <h3>Need assistance?</h3>
-        <p>
-          For policy clarifications and priority support, email <a href="mailto:care@bbn.demo">care@bbn.demo</a>.
-        </p>
-      </div>
+      {isAbout ? (
+        <div className="shipping-policy-help shipping-policy-help--about">
+          <h3>We&apos;re here to help</h3>
+          <p>
+            Visit{' '}
+            <Link to="/pages/contact">Contact us</Link>
+            {' or email '}
+            <a href={`mailto:${contactPageContent.customerSupport.email}`}>
+              {contactPageContent.customerSupport.emailDisplay}
+            </a>
+            {' for orders, sizing, and styling questions.'}
+          </p>
+        </div>
+      ) : (
+        <div className="shipping-policy-help">
+          <h3>Need assistance?</h3>
+          <p>
+            For policy clarifications and priority support, email <a href="mailto:care@bbn.demo">care@bbn.demo</a>.
+          </p>
+        </div>
+      )}
     </section>
+  )
+}
+
+/** Structured “What we offer” layout from staticDocs paragraphs (intro + category lines + closing). */
+function AboutPageBody({ paragraphs }: { paragraphs: string[] }) {
+  if (paragraphs.length < 3) {
+    return (
+      <>
+        {paragraphs.map((p, i) => (
+          <p key={i}>{p}</p>
+        ))}
+      </>
+    )
+  }
+
+  const intro = paragraphs[0]
+  const closing = paragraphs[paragraphs.length - 1]
+  const offerLines = paragraphs.slice(1, -1)
+
+  return (
+    <div className="about-page">
+      <div className="about-page-hero">
+        <p className="about-page-tagline">Premium Indian fashion for every celebration.</p>
+        <p className="about-page-lead">{intro}</p>
+      </div>
+
+      <h2 className="about-page-section-title" id="what-we-offer">
+        <span className="about-page-section-title-inner">What we offer</span>
+      </h2>
+
+      <div className="about-offer-grid">
+        {offerLines.map((line, i) => {
+          const colon = line.indexOf(': ')
+          const title = colon >= 0 ? line.slice(0, colon) : line
+          const body = colon >= 0 ? line.slice(colon + 2) : ''
+          return (
+            <article key={`${title}-${i}`} className="about-offer-card">
+              <div className="about-offer-card-accent" aria-hidden />
+              <h3 className="about-offer-card-title">{title}</h3>
+              {body ? <p className="about-offer-card-text">{body}</p> : null}
+            </article>
+          )
+        })}
+      </div>
+
+      <div className="about-page-closing">
+        <p>{closing}</p>
+      </div>
+    </div>
   )
 }
 
@@ -251,6 +319,15 @@ export function StaticDocPage() {
   useEffect(() => {
     setContactThanks(false)
     setTrackThanks(false)
+  }, [key])
+
+  useEffect(() => {
+    if (key !== 'contact') return
+    if (window.location.hash !== '#contact-form') return
+    const el = document.getElementById('contact-form')
+    if (!el) return
+    const t = window.setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80)
+    return () => window.clearTimeout(t)
   }, [key])
 
   if (!page) {
@@ -278,52 +355,122 @@ export function StaticDocPage() {
     )
   }
 
+  const isPolicyDocPage =
+    key === 'shipping-policy' || key === 'return-policy' || key === 'privacy-policy'
+
+  const proseClass =
+    key === 'contact'
+      ? 'prose-page prose-page--contact'
+      : key === 'about'
+        ? 'prose-page prose-page--about'
+        : isPolicyDocPage
+          ? 'prose-page prose-page--policy-doc'
+          : 'prose-page'
+
   return (
-    <div className="prose-page">
+    <div className={proseClass}>
       <h1>{page.title}</h1>
-      {page.paragraphs.map((p, i) => (
-        <p key={i}>{p}</p>
-      ))}
-      <PolicyCards docKey={key} />
       {key === 'contact' && (
-        <>
-          {contactThanks && (
-            <p style={{ marginTop: 24, color: 'var(--color-success, #2e7d32)' }} role="status">
-              Thanks — we&apos;ll get back to you. (Demo — message not sent.)
-            </p>
-          )}
-          <form
-            style={{ marginTop: contactThanks ? 16 : 32, maxWidth: 480 }}
-            onSubmit={(e) => {
-              e.preventDefault()
-              setContactThanks(true)
-              e.currentTarget.reset()
-            }}
-          >
-            <input
-              type="text"
-              placeholder="Name"
-              required
-              style={{ width: '100%', padding: 12, marginBottom: 12, borderRadius: 8, border: '1px solid #ddd' }}
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              required
-              style={{ width: '100%', padding: 12, marginBottom: 12, borderRadius: 8, border: '1px solid #ddd' }}
-            />
-            <textarea
-              placeholder="Message"
-              required
-              rows={4}
-              style={{ width: '100%', padding: 12, marginBottom: 12, borderRadius: 8, border: '1px solid #ddd' }}
-            />
-            <button type="submit" className="btn-primary btn-dark">
-              Send
-            </button>
-          </form>
-        </>
+        <div className="contact-page">
+          <header className="contact-page-intro">
+            <h2 id="contact-get-in-touch-heading" className="contact-get-in-touch-title">
+              {contactPageContent.getInTouchTitle}
+            </h2>
+            <p className="contact-get-in-touch-lead">{contactPageContent.getInTouchLead}</p>
+          </header>
+
+          <div className="contact-page-main">
+            <article className="contact-channel-card">
+              <h3 className="contact-channel-title">{contactPageContent.customerSupport.title}</h3>
+              <dl className="contact-channel-dl">
+                <dt>Email</dt>
+                <dd>
+                  <a href={`mailto:${contactPageContent.customerSupport.email}`}>
+                    {contactPageContent.customerSupport.emailDisplay}
+                  </a>
+                </dd>
+                <dt>Phone</dt>
+                <dd>
+                  <a href={`tel:${contactPageContent.customerSupport.phoneTel}`}>
+                    {contactPageContent.customerSupport.phoneDisplay}
+                  </a>
+                </dd>
+                <dt>Hours</dt>
+                <dd>{contactPageContent.customerSupport.hours}</dd>
+              </dl>
+            </article>
+
+            <section className="contact-location-block" aria-labelledby="contact-location-heading">
+              <h2 id="contact-location-heading" className="contact-location-title">
+                Our location
+              </h2>
+              <p className="contact-location-intro">{contactLocation.intro}</p>
+              <h3 className="contact-location-subhead">{contactLocation.headOfficeLabel}</h3>
+              <address className="contact-location-address">
+                {contactLocation.lines.map((line, i) => (
+                  <span key={`${i}-${line}`} className="contact-location-line">
+                    {line}
+                  </span>
+                ))}
+              </address>
+            </section>
+          </div>
+
+          <p className="contact-visit-note">
+            <ContactVisitNoteLink />
+          </p>
+
+          <section className="contact-form-section" aria-labelledby="contact-form-heading">
+            <h2 id="contact-form-heading" className="contact-form-section-title">
+              Send us a message
+            </h2>
+            {contactThanks && (
+              <p className="contact-form-thanks" role="status">
+                Thanks — we&apos;ll get back to you. (Demo — message not sent.)
+              </p>
+            )}
+            <form
+              id="contact-form"
+              className="contact-form"
+              onSubmit={(e) => {
+                e.preventDefault()
+                setContactThanks(true)
+                e.currentTarget.reset()
+              }}
+            >
+              <input type="text" name="name" placeholder="Name" required autoComplete="name" />
+              <input type="email" name="email" placeholder="Email" required autoComplete="email" />
+              <textarea name="message" placeholder="Message" required rows={4} />
+              <button type="submit" className="btn-primary contact-form-submit">
+                Send message
+              </button>
+            </form>
+          </section>
+        </div>
       )}
+
+      {isPolicyDocPage ? (
+        <div className="policy-doc-page">
+          <div className="policy-page-summary">
+            {page.paragraphs.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+          </div>
+          <PolicyCards docKey={key} />
+        </div>
+      ) : key === 'about' ? (
+        <>
+          <AboutPageBody paragraphs={page.paragraphs} />
+          <PolicyCards docKey={key} variant="about" />
+        </>
+      ) : key !== 'contact' ? (
+        <>
+          {page.paragraphs.map((p, i) => (
+            <p key={i}>{p}</p>
+          ))}
+          <PolicyCards docKey={key} />
+        </>
+      ) : null}
       {key === 'track-order' && (
         <>
           {trackThanks && (

@@ -29,7 +29,7 @@ export function CouplePairsBanner() {
         <Link to="/pages/couple-pairs" className="couple-banner-cta">
           <span className="couple-banner-cta-label">Shop couple set</span>
           <span className="couple-banner-cta-icon" aria-hidden>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
               <path
                 d="M7 17L17 7M17 7H9M17 7V15"
                 stroke="currentColor"

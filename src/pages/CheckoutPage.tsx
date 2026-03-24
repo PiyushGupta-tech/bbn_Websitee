@@ -76,7 +76,7 @@ export function CheckoutPage() {
             <p className="checkout-page-lead" style={{ marginBottom: 20 }}>
               Add products to continue to shipping details.
             </p>
-            <Link to="/cart" className="btn-primary btn-dark">
+            <Link to="/cart" className="btn-primary cart-page-checkout-btn cart-page-empty-cta">
               Go to cart
             </Link>
           </div>
@@ -257,7 +257,7 @@ export function CheckoutPage() {
                 >
                   {busy ? 'Placing order…' : 'Place order'}
                 </button>
-                <Link to="/cart" className="btn-primary checkout-success-secondary checkout-cancel-link">
+                <Link to="/cart" className="checkout-cancel-link">
                   Return to cart
                 </Link>
               </div>

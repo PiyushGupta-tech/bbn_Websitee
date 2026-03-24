@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { megaNav, topMarquee } from '../data/nav'
+import { IconFacebookBrand, IconInstagramBrand, IconPinterestBrand } from './SocialBrandIcons'
 import { useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
 import { useAuth } from '../context/AuthContext'
@@ -58,53 +59,6 @@ function IconCart() {
   )
 }
 
-function IconFacebook() {
-  return (
-    <svg
-      aria-hidden
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      style={{ marginRight: 6 }}
-    >
-      <path d="M13 10h3.5l-.5 4H13v8h-4v-8H7v-4h2V8.5C9 5.9 10.6 4 13.7 4H17v4h-2.2C13.8 8 13 8.3 13 9.3V10z" />
-    </svg>
-  )
-}
-
-function IconInstagram() {
-  return (
-    <svg
-      aria-hidden
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      style={{ marginRight: 6 }}
-    >
-      <rect x="4" y="4" width="16" height="16" rx="5" />
-      <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="1.8" />
-      <circle cx="17" cy="7" r="1.3" />
-    </svg>
-  )
-}
-
-function IconPinterest() {
-  return (
-    <svg
-      aria-hidden
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      style={{ marginRight: 6 }}
-    >
-      <path d="M12 3C7.6 3 5 6 5 9.5c0 2.6 1.4 4.3 3.3 4.3.5 0 1-.3 1.1-.9l.3-1.1c.1-.4 0-.6-.2-.9-.4-.5-.6-1.1-.6-2 0-1.8 1.3-3.2 3.4-3.2 1.8 0 3 1.2 3 2.9 0 2-1 3.5-2.4 3.5-.7 0-1.2-.5-1-.1l.1.4-.4 1.5-.1.5-.2.7c-.1.3-.1.7 0 1.1 0 0 .1.1.1.1 3-.4 5.3-3 5.3-6.4C18.6 6 15.9 3 12 3z" />
-    </svg>
-  )
-}
-
 export function Header() {
   const [open, setOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
@@ -151,17 +105,29 @@ export function Header() {
     <>
       <div className="top-bar">{topMarquee}</div>
       <div className="header-socials container">
-        <a href="https://facebook.com" target="_blank" rel="noreferrer">
-          <IconFacebook />
-          <span>Facebook</span>
+        <a
+          href="https://www.facebook.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="bbn on Facebook (opens in a new tab)"
+        >
+          <IconFacebookBrand size={24} />
         </a>
-        <a href="https://instagram.com" target="_blank" rel="noreferrer">
-          <IconInstagram />
-          <span>Instagram</span>
+        <a
+          href="https://www.instagram.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="bbn on Instagram (opens in a new tab)"
+        >
+          <IconInstagramBrand size={24} />
         </a>
-        <a href="https://pinterest.com" target="_blank" rel="noreferrer">
-          <IconPinterest />
-          <span>Pinterest</span>
+        <a
+          href="https://www.pinterest.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="bbn on Pinterest (opens in a new tab)"
+        >
+          <IconPinterestBrand size={24} />
         </a>
       </div>
 

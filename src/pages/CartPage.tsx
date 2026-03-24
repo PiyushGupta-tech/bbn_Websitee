@@ -23,94 +23,133 @@ export function CartPage() {
 
   if (linesWithProduct.length === 0) {
     return (
-      <div className="container prose-page" style={{ textAlign: 'center' }}>
-        <h1>Your cart is empty</h1>
-        <Link to="/" className="btn-primary btn-dark" style={{ marginTop: 24, display: 'inline-block' }}>
-          Continue shopping
-        </Link>
-      </div>
+      <section className="cart-page" aria-labelledby="cart-empty-heading">
+        <div className="cart-page-bg" aria-hidden />
+        <div className="container cart-page-inner">
+          <div className="cart-page-empty">
+            <p className="cart-page-eyebrow">Your bag</p>
+            <h1 id="cart-empty-heading" className="cart-page-title">
+              Your cart is empty
+            </h1>
+            <p className="cart-page-empty-lead">
+              Discover sarees, lehengas, and more — curated for every celebration.
+            </p>
+            <Link to="/" className="btn-primary cart-page-checkout-btn cart-page-empty-cta">
+              Continue shopping
+            </Link>
+          </div>
+        </div>
+      </section>
     )
   }
 
   return (
-    <div className="container" style={{ padding: '32px 20px 64px', maxWidth: 720 }}>
-      <h1 className="section-title" style={{ textAlign: 'left' }}>
-        Shopping cart
-      </h1>
-      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-        {linesWithProduct.map(({ line, product }) => (
-          <motion.li
-            key={cartLineKey(line)}
-            layout
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '100px 1fr auto',
-              gap: 20,
-              alignItems: 'center',
-              padding: '20px 0',
-              borderBottom: '1px solid var(--color-border)',
-            }}
-          >
-            <Link to={`/products/${product.slug}`}>
-              <img
-                src={product.image}
-                alt=""
-                width={100}
-                height={133}
-                referrerPolicy="no-referrer"
-                style={{ borderRadius: 8, objectFit: 'cover' }}
-              />
-            </Link>
-            <div>
-              <Link to={`/products/${product.slug}`} style={{ fontWeight: 600 }}>
-                {product.title.slice(0, 80)}
-                {product.title.length > 80 ? '…' : ''}
-              </Link>
-              <p style={{ margin: '8px 0 0', fontWeight: 700 }}>{formatInr(product.price)}</p>
-              <p style={{ margin: '6px 0 0', fontSize: 14, color: 'var(--color-muted)' }}>
-                Size: <strong style={{ color: 'var(--color-text)' }}>{line.size}</strong>
-              </p>
-              <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-                <label>
-                  Qty{' '}
-                  <input
-                    type="number"
-                    min={1}
-                    value={line.qty}
-                    onChange={(e) =>
-                      setQty(product.id, line.size, Math.max(1, parseInt(e.target.value, 10) || 1))
-                    }
-                    style={{ width: 56, padding: 6, marginLeft: 8 }}
+    <section className="cart-page" aria-labelledby="cart-heading">
+      <div className="cart-page-bg" aria-hidden />
+      <div className="container cart-page-inner">
+        <header className="cart-page-header">
+          <p className="cart-page-eyebrow">Your selection</p>
+          <h1 id="cart-heading" className="cart-page-title">
+            Shopping cart
+          </h1>
+        </header>
+
+        <div className="cart-page-card">
+          <ul className="cart-page-list">
+            {linesWithProduct.map(({ line, product }) => {
+              const lineKey = cartLineKey(line)
+              const qtyGroupId = `cart-qty-${lineKey.replace(/[^a-zA-Z0-9_-]/g, '-')}`
+              return (
+              <motion.li
+                key={lineKey}
+                layout
+                className="cart-page-row"
+              >
+                <Link to={`/products/${product.slug}`} className="cart-page-thumb-wrap">
+                  <img
+                    src={product.image}
+                    alt=""
+                    width={100}
+                    height={133}
+                    referrerPolicy="no-referrer"
+                    className="cart-page-thumb"
                   />
-                </label>
-                <button
-                  type="button"
-                  className="cart-remove-btn"
-                  onClick={() => removeFromCart(product.id, line.size)}
-                >
-                  Remove
-                </button>
-              </div>
-            </div>
-            <div style={{ fontWeight: 700 }}>{formatInr(product.price * line.qty)}</div>
-          </motion.li>
-        ))}
-      </ul>
-      <div style={{ marginTop: 32, textAlign: 'right' }}>
-        <p style={{ fontSize: 14, color: 'var(--color-muted)', marginBottom: 8 }}>
-          Shipping calculated at next step (demo).
-        </p>
-        <p style={{ fontSize: 20, fontWeight: 700 }}>Subtotal: {formatInr(subtotal)}</p>
-        <motion.button
-          type="button"
-          className="btn-primary btn-dark"
-          style={{ marginTop: 16, padding: '16px 48px' }}
-          whileHover={{ scale: 1.02 }}
-          onClick={handleCheckout}
-        >
-          Check out
-        </motion.button>
+                </Link>
+                <div className="cart-page-row-body">
+                  <Link to={`/products/${product.slug}`} className="cart-page-product-title">
+                    {product.title.slice(0, 80)}
+                    {product.title.length > 80 ? '…' : ''}
+                  </Link>
+                  <p className="cart-page-price-unit">{formatInr(product.price)}</p>
+                  <p className="cart-page-size">
+                    Size: <span className="cart-page-size-value">{line.size}</span>
+                  </p>
+                  <div className="cart-page-controls">
+                    <div
+                      className="cart-page-qty-stepper"
+                      role="group"
+                      aria-labelledby={qtyGroupId}
+                    >
+                      <span className="cart-page-qty-sr" id={qtyGroupId}>
+                        Quantity for {product.title.slice(0, 60)}
+                        {product.title.length > 60 ? '…' : ''}
+                      </span>
+                      <button
+                        type="button"
+                        className="cart-page-qty-btn"
+                        aria-label={
+                          line.qty <= 1
+                            ? `Remove ${product.title.slice(0, 48)} from cart`
+                            : `Decrease quantity of ${product.title.slice(0, 48)}`
+                        }
+                        onClick={() => setQty(product.id, line.size, line.qty - 1)}
+                      >
+                        −
+                      </button>
+                      <span className="cart-page-qty-value" aria-live="polite" aria-atomic="true">
+                        {line.qty}
+                      </span>
+                      <button
+                        type="button"
+                        className="cart-page-qty-btn"
+                        aria-label={`Increase quantity of ${product.title.slice(0, 48)}`}
+                        onClick={() => setQty(product.id, line.size, line.qty + 1)}
+                      >
+                        +
+                      </button>
+                    </div>
+                    <button
+                      type="button"
+                      className="cart-remove-btn"
+                      onClick={() => removeFromCart(product.id, line.size)}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+                <div className="cart-page-line-total">{formatInr(product.price * line.qty)}</div>
+              </motion.li>
+              )
+            })}
+          </ul>
+
+          <footer className="cart-page-footer">
+            <p className="cart-page-ship-note">Shipping calculated at next step (demo).</p>
+            <p className="cart-page-subtotal">
+              <span className="cart-page-subtotal-label">Subtotal</span>
+              <span className="cart-page-subtotal-amount">{formatInr(subtotal)}</span>
+            </p>
+            <motion.button
+              type="button"
+              className="btn-primary cart-page-checkout-btn"
+              whileHover={{ scale: 1.02 }}
+              onClick={handleCheckout}
+            >
+              Check out
+            </motion.button>
+          </footer>
+        </div>
       </div>
-    </div>
+    </section>
   )
 }

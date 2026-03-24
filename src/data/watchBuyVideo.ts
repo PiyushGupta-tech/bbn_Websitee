@@ -12,7 +12,7 @@ export type WatchBuyVideo = {
   startSeconds: number
   /** Short line under the thumb */
   description: string
-  /** “Add to cart” navigates here */
+  /** “View product” CTA navigates here */
   shopHref: string
 }
 

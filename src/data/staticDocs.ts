@@ -5,19 +5,19 @@ export const staticDocs: Record<
   about: {
     title: 'About bbn',
     paragraphs: [
-      'bbn curates premium Indian ethnic wear for modern celebrations — from timeless sarees and bridal lehengas to festive suits and contemporary Indo-Western edits.',
-      'Our design language blends Indian craftsmanship with wearable silhouettes, thoughtful fabric choices, and detailing that feels rich both on camera and in person.',
-      'We serve retail and wholesale clients globally with tracked shipping, transparent policies, and responsive support. This website is a demo storefront showcasing that experience.',
+      'At bbn, we offer a comprehensive range of products across various categories:',
+      'Fashion & Ethnic Wear: Premium sarees, lehengas, anarkalis, kurta sets, and Indo-western edits for weddings, festivals, and celebrations — plus curated styling picks.',
+      'Fashion & Apparel: Trendy clothing and accessories for women and men.',
+      'Jewelry: Beautiful and elegant jewelry pieces for every occasion.',
+      "Women's saree & drape edits: Classic and contemporary sarees — Banarasi, tissue, silk, and printed drapes — with blouse pieces, petticoats, and styling picks for an elegant finish.",
+      'Lehengas & festive women’s wear: Bridal and party lehengas, sharara sets, anarkalis, and half-saree looks for weddings, sangeet, and celebrations.',
+      'Flash Deals & Clearance Sales: Exclusive deals and discounts on selected products.',
+      'We regularly update our inventory with new arrivals and offer special promotions, flash deals, and clearance sales to provide our customers with the best value for their money.',
     ],
   },
   contact: {
     title: 'Contact Us',
-    paragraphs: [
-      'Email: care@bbn.demo',
-      'Quick questions: email us or use the contact form below.',
-      'Hours: Mon–Sat, 10 AM – 7 PM IST',
-      'For order help, sizing, or wholesale enquiries, use the form below (demo — does not submit).',
-    ],
+    paragraphs: [],
   },
   wholesale: {
     title: 'Wholesale',
@@ -73,6 +73,37 @@ export const staticDocs: Record<
     ],
   },
 }
+
+/** Registered head office — Contact page “Our location” */
+export const contactLocation = {
+  intro: 'bbnpay solution pvt ltd is headquartered in Uttar Pradesh, India.',
+  headOfficeLabel: 'Head office',
+  lines: [
+    'bbnpay solution pvt ltd',
+    'Golden -1, Shop No. T3-910, Block T3',
+    'Sector Techzone IV, Greater Noida',
+    'Bisrakh, Gautam Buddha Nagar',
+    'Uttar Pradesh - 201306',
+    'India',
+  ],
+} as const
+
+/** Contact page — Get in Touch + customer support */
+export const contactPageContent = {
+  getInTouchTitle: 'Get in Touch',
+  getInTouchLead:
+    "We'd love to hear from you! Whether you have questions, feedback, or just want to say hello, our team is here to help.",
+  customerSupport: {
+    title: 'Customer Support',
+    email: 'bbnpaysolution2025@gmail.com',
+    emailDisplay: 'BBNPAYSOLUTION2025@GMAIL.COM',
+    phoneDisplay: '9625761902',
+    phoneTel: '+919625761902',
+    hours: 'Monday - Saturday, 9:00 AM - 6:00 PM IST',
+  },
+  visitNote:
+    'Visit our Contact Us page for more ways to reach us.',
+} as const
 
 export const faqItems = [
   {

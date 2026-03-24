@@ -83,22 +83,22 @@ export const productPhotos: Record<string, string> = {
   // Suppar Sleave Women's Stylish Colorful Fancy Heavy Embroidered Kurta Pant & Dupatta (₹1,499) — Google Shopping thumbnail
   'suppar-sleave-womens-embroidered-kurta-pant-dupatta':
     'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRzQJlqRhHrtBc1ItMgoPMsB1UDut6cbEZSqaZFgehZ5lNmTslekmWmPPGi77srcsjM9zXzoOF-fuepHsYcOHUIPh5ge2UGjkBRyRwczPIYCOcJ9LO1LZjB3w',
-  // Shining Diva Women's Fancy Wedding Party Crystal Diamonds Necklace Jewellery Set (₹624–₹625) — Google Shopping thumbnail
+  // Shining Diva Women's Fancy Wedding Party Crystal Diamonds Necklace Jewellery Set (₹33,000) — Google Shopping thumbnail
   'shining-diva-crystal-diamonds-necklace-jewellery-set':
     'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRaDmbeSSi_-97m1Ls_bHqLzBvgGJNx4XopS5oux2X8PYo5JQ0Ljp92wmbZjnKuShF4ELSIda_oGUoMOJUAcocE7drcn0yi',
-  // Giva Anushka Sharma Solitaire Heart Pendant (₹1,959–₹2,889) — Google Shopping thumbnail
+  // Giva Anushka Sharma Solitaire Heart Pendant (₹31,000) — Google Shopping thumbnail
   'giva-anushka-sharma-solitaire-heart-pendant':
     'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRUbgbTi5CblAC-4koZIfWUpae1Cy1uBUSGl6Tjp4G8qa5FH22_1RbiNDyFLrIkxlIyDvqpIKxsaL0BxrePbt1uFVR9b8X824jzFSzyg7lTtFCGCDpHabfu',
-  // Rubans 24K Gold-Plated Floral Design Studded Necklace Set (₹688–₹903) — Google Shopping thumbnail
+  // Rubans 24K Gold-Plated Floral Design Studded Necklace Set (₹20,000) — Google Shopping thumbnail
   'rubans-24k-gold-plated-floral-studded-necklace-set':
     'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQTZyG1ABRKRdb1A5-qEQm0MXMb5EMBG-0SR8KTC9q2BXg-GkQRq7s25h7mk4UNfro6vnNZNnSR02OquNG8LGy7J3dWRhMHSg0Kc30e2-uD',
-  // Shining Diva Women's Traditional Kundan Necklace (typically ₹484) — Google Shopping thumbnail
+  // Shining Diva Women's Traditional Kundan Necklace (₹30,000) — Google Shopping thumbnail
   'shining-diva-womens-traditional-kundan-necklace':
     'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcStd7KS_fd3orhokl61oBIlTPbqiRQl7850K6gKxtaO8uGcExNhZoOSxhdl7_p89w5DWFFPSCTjjseBnX2zP_VJ0Extia3rNktpU2aUf-a-Y11A0hhq6kuZ',
   // Shining Diva Women's Latest Choker Design Antique Kundan Traditional Necklace Jewellery Set (typically ₹300–₹325) — Google Shopping thumbnail
   'shining-diva-womens-choker-antique-kundan-necklace-jewellery-set':
     'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSsVN3TatoZdAaBWIegQYkh_TRTX1G7LDCkb0huFoSVaX7utRyc2VFJUXf98f8Gsu7nU5PNn89P2S9LsXr8WKIFAaSENFQ-2Ih2AV_gTTp0qgSthQLe18vnhQ',
-  // Zaveri Pearls Gold-Plated Kundan Stone Studded & Beaded Jewellery Set (typically ₹1,565–₹1,567) — Google Shopping thumbnail
+  // Zaveri Pearls Gold-Plated Kundan Stone Studded & Beaded Jewellery Set (₹15,000) — Google Shopping thumbnail
   'zaveri-pearls-gold-plated-kundan-beaded-jewellery-set':
     'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcRcQWaFu0SzJljK8vbcOf7f49RHsVSU60UHkTaSQoHgisgpJRDVQdzAKr0s_ME7ZdL5SjFhIhmecPf737OUNeJgWzBePSpO3RpvNMPsKZyGaCtcwq5n-MRFGA',
   // Lime Luxe Indo-Western Viscose Suit Set with Palazzo & Dupatta (₹6,999 / ₹19,999) — Google Shopping thumbnail

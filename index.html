@@ -9,6 +9,40 @@
     <title>bbn | Ethnic Wear Online</title>
   </head>
   <body>
+    <!-- Runs before Vite/React: suppress extension script "Uncaught Error" spam (content-youtube-embed.js). -->
+    <script>
+      ;(function () {
+        function extNoise(msg, src) {
+          var m = String(msg || '')
+          var s = String(src || '')
+          return (
+            s.indexOf('content-youtube-embed') !== -1 ||
+            s.indexOf('chrome-extension://') !== -1 ||
+            s.indexOf('moz-extension://') !== -1 ||
+            m.indexOf('only be loaded in a browser extension') !== -1 ||
+            m.indexOf('browser extension') !== -1
+          )
+        }
+        window.addEventListener(
+          'error',
+          function (e) {
+            if (extNoise(e.message, e.filename || '')) {
+              e.preventDefault()
+              e.stopImmediatePropagation()
+            }
+          },
+          true,
+        )
+        var prev = window.onerror
+        window.onerror = function (message, source, lineno, colno, error) {
+          if (extNoise(message, source)) return true
+          if (typeof prev === 'function') {
+            return prev.call(window, message, source, lineno, colno, error) === true
+          }
+          return false
+        }
+      })()
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

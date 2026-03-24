@@ -24,7 +24,14 @@ This stack trace comes from a **Chrome extension** (path often starts with `chro
 
 **In this repo:** YouTube players use **`LazyYoutubeIframe`** so embeds start **after** they’re near the viewport and are **staggered**, which reduces how many players hit buggy extensions at once. That does **not** replace disabling a broken extension.
 
-In **development**, **`DevBrowserHint`** (bottom bar) explains the above once per session until dismissed.
+In **development**:
+
+- **`index.html`** runs a tiny **inline script** *before* Vite loads so `window.onerror` / capture `error` run **first** (some tools overwrite handlers later).
+- **`src/devConsoleEarly.ts`** reinforces the same filters and also filters **`console.error`** + **`unhandledrejection`** in dev.
+
+**`DevBrowserHint`** (bottom bar) explains the cause once per session until dismissed.
+
+If Chrome still prints the red line, the browser is logging from the extension process — disable the extension or use console filter **`-chrome-extension://`**.
 
 ## Content Security Policy (CSP) — report-only / `unsafe-eval`
 
