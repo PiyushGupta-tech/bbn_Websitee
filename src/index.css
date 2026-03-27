@@ -152,7 +152,7 @@ button:focus-visible {
   opacity: 0.88;
   transform: translateY(-1px);
 }
-/* Facebook / Instagram / Pinterest brand marks (SVG) */
+/* Facebook / Instagram brand marks (SVG) */
 .social-brand-svg {
   display: block;
   flex-shrink: 0;
@@ -786,6 +786,12 @@ a.icon-btn {
   margin: 0 0 12px;
   color: var(--color-text);
   line-height: 1.2;
+}
+.auth-welcome-back {
+  font-family: 'Great Vibes', cursive;
+  font-weight: 700;
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  line-height: 1.05;
 }
 .auth-brand-lead {
   margin: 0 0 24px;
@@ -3290,9 +3296,8 @@ a.btn-primary.btn-dark {
   flex-wrap: wrap;
 }
 .footer-social-circle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   width: 42px;
   height: 42px;
   border-radius: 50%;
@@ -3301,6 +3306,15 @@ a.btn-primary.btn-dark {
   background: rgba(255, 255, 255, 0.04);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
   transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s var(--ease-out);
+}
+.footer-social-circle--brand {
+  overflow: hidden;
+}
+.footer-social-circle--brand .social-brand-svg {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  box-shadow: none;
 }
 .footer-social-circle:hover {
   background: rgba(114, 20, 40, 0.35);
@@ -4885,7 +4899,7 @@ a.btn-primary.btn-dark {
   margin: 0 0 8px;
   font-family: var(--font-serif);
   font-size: clamp(1.05rem, 2vw, 1.2rem);
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-blood-royal-mid);
   letter-spacing: 0.02em;
   line-height: 1.25;

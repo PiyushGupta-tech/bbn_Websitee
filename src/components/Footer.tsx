@@ -1,41 +1,54 @@
 import { useState, FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { IconFacebookBrand, IconInstagramBrand, IconPinterestBrand } from './SocialBrandIcons'
+import { IconFacebookBrand, IconInstagramBrand } from './SocialBrandIcons'
 
 function IconCart() {
   return (
-    <svg className="footer-trust-svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-      <path d="M8 12h4l2 20h24l3-14H16" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="20" cy="38" r="2" fill="currentColor" stroke="none" />
-      <circle cx="34" cy="38" r="2" fill="currentColor" stroke="none" />
+    <svg className="footer-trust-svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" aria-hidden>
+      <path
+        d="M7 11h5l2.6 19h18.9l3-14.6H15"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="19" cy="36.5" r="2.1" fill="currentColor" stroke="none" />
+      <circle cx="32.5" cy="36.5" r="2.1" fill="currentColor" stroke="none" />
     </svg>
   )
 }
 
 function IconCard() {
   return (
-    <svg className="footer-trust-svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-      <rect x="6" y="12" width="36" height="24" rx="3" />
-      <path d="M6 20h36" />
-      <path d="M12 28h10" strokeLinecap="round" />
+    <svg className="footer-trust-svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" aria-hidden>
+      <rect x="6.5" y="12" width="35" height="24" rx="4" strokeWidth="1.8" />
+      <path d="M6.5 20.5h35" strokeWidth="1.8" />
+      <rect x="12" y="26.3" width="8.8" height="5.4" rx="1.4" strokeWidth="1.6" />
+      <path d="M24.5 29h10" strokeWidth="1.8" strokeLinecap="round" />
     </svg>
   )
 }
 
 function IconDollar() {
   return (
-    <svg className="footer-trust-svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-      <path d="M24 8v32M18 16c0-3 2.5-4 6-4s6 2 6 5-3 5-8 5-6 2-6 5 2.5 4 8 4 8-1.5 8-4" strokeLinecap="round" strokeLinejoin="round" />
+    <svg className="footer-trust-svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" aria-hidden>
+      <circle cx="24" cy="24" r="15.5" strokeWidth="1.8" />
+      <path d="M18.2 16.6h12.1M18.2 21.2h10.4" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M28.4 21.2c0 3.9-2.9 6.6-7.3 6.6h-1.3l9.7 7" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
 
 function IconGift() {
   return (
-    <svg className="footer-trust-svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-      <rect x="8" y="18" width="32" height="22" rx="2" />
-      <path d="M24 18V40M8 26h32" />
-      <path d="M24 18c-4-6 8-8 0-8s4 2 0 8" strokeLinecap="round" />
+    <svg className="footer-trust-svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" aria-hidden>
+      <rect x="8" y="21" width="32" height="18.5" rx="2.8" strokeWidth="1.8" />
+      <path d="M24 21v18.5M8 27h32" strokeWidth="1.8" />
+      <path
+        d="M24 21c0-5.7 8.2-8.2 8.2-3.1 0 2-1.6 3.1-3.7 3.1H24zm0 0c0-5.7-8.2-8.2-8.2-3.1 0 2 1.6 3.1 3.7 3.1H24z"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   )
 }
@@ -110,7 +123,7 @@ export function Footer() {
             </p>
             <div className="footer-social-circles">
               <a
-                href="https://www.facebook.com/"
+                href="https://www.facebook.com/profile.php?id=61575424553004"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer-social-circle footer-social-circle--brand"
@@ -119,22 +132,13 @@ export function Footer() {
                 <IconFacebookBrand />
               </a>
               <a
-                href="https://www.instagram.com/"
+                href="https://www.instagram.com/bbn.fashion/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer-social-circle footer-social-circle--brand"
                 aria-label="bbn on Instagram (opens in new tab)"
               >
                 <IconInstagramBrand />
-              </a>
-              <a
-                href="https://www.pinterest.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="footer-social-circle footer-social-circle--brand"
-                aria-label="bbn on Pinterest (opens in new tab)"
-              >
-                <IconPinterestBrand />
               </a>
             </div>
           </div>

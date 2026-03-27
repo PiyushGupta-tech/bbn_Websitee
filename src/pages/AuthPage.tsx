@@ -95,7 +95,7 @@ export function AuthPage() {
               <span className="auth-brand-logo-sub">ethnic wear</span>
             </Link>
             <h2 id="auth-brand-heading" className="auth-brand-title">
-              {isSignUp ? 'Join the bbn circle' : 'Welcome back'}
+              {isSignUp ? 'Join the bbn circle' : <span className="auth-welcome-back">Welcome back</span>}
             </h2>
             <p className="auth-brand-lead">
               {isSignUp

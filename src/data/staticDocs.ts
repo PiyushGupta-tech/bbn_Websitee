@@ -51,10 +51,8 @@ export const staticDocs: Record<
   'privacy-policy': {
     title: 'Privacy Policy',
     paragraphs: [
-      'We collect information you provide (name, email, phone, shipping address, and order details) to process purchases and provide customer support.',
-      'We use technical and analytics data (device/browser/usage events) to improve site performance, security, and product discovery.',
-      'We do not sell personal data. Payments are processed by trusted third-party gateways; bbn does not store full card details on this demo storefront.',
-      'You may request data access, correction, or deletion by emailing care@bbn.demo.',
+      'Last Updated: December 2024',
+      'bbnpay solution pvt ltd ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services.',
     ],
   },
   'terms-of-service': {

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { megaNav, topMarquee } from '../data/nav'
-import { IconFacebookBrand, IconInstagramBrand, IconPinterestBrand } from './SocialBrandIcons'
+import { IconFacebookBrand, IconInstagramBrand } from './SocialBrandIcons'
 import { useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
 import { useAuth } from '../context/AuthContext'
@@ -106,7 +106,7 @@ export function Header() {
       <div className="top-bar">{topMarquee}</div>
       <div className="header-socials container">
         <a
-          href="https://www.facebook.com/"
+          href="https://www.facebook.com/profile.php?id=61575424553004"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="bbn on Facebook (opens in a new tab)"
@@ -114,20 +114,12 @@ export function Header() {
           <IconFacebookBrand size={24} />
         </a>
         <a
-          href="https://www.instagram.com/"
+          href="https://www.instagram.com/bbn.fashion/"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="bbn on Instagram (opens in a new tab)"
         >
           <IconInstagramBrand size={24} />
-        </a>
-        <a
-          href="https://www.pinterest.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="bbn on Pinterest (opens in a new tab)"
-        >
-          <IconPinterestBrand size={24} />
         </a>
       </div>
 
