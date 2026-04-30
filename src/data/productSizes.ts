@@ -7,12 +7,12 @@ const FREE = ['Free size'] as const
 
 /**
  * Sizes shown on PDP / used for cart lines.
- * Sarees & jewellery are typically unstitched / one-size.
+ * Sarees are typically unstitched / one-size.
  */
 export function getSizesForProduct(product: Product): string[] {
   if (product.sizes?.length) return [...product.sizes]
 
-  if (product.categoryId === 'sarees' || product.categoryId === 'jewellery') {
+  if (product.categoryId === 'sarees') {
     return [...FREE]
   }
 

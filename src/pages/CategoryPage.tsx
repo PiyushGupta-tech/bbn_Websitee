@@ -9,7 +9,6 @@ const titles: Record<string, string> = {
   'lehenga-choli': 'Lehenga Choli',
   'salwar-kameez': 'Salwar Kameez',
   'indo-western': 'Indo-Western',
-  jewellery: 'Jewellery',
   'gown-dresses': 'Gown & Dresses',
   'couple-pairs': 'Couple Pairs',
 }

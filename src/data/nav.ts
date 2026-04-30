@@ -51,14 +51,6 @@ export const megaNav = [
       { label: 'Sharara Suits', href: '/collections/salwar-kameez' },
     ],
   },
-  {
-    label: 'JEWELLERY',
-    href: '/collections/jewellery',
-    children: [
-      { label: 'Necklace Set', href: '/collections/jewellery' },
-      { label: 'Earrings', href: '/collections/jewellery' },
-    ],
-  },
 ]
 
 /** Home row — same five as bbn (large circles under hero) */

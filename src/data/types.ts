@@ -4,7 +4,6 @@ export type CategoryId =
   | 'lehenga-choli'
   | 'salwar-kameez'
   | 'indo-western'
-  | 'jewellery'
   | 'gown-dresses'
   | 'couple-pairs'
 
