@@ -1,8 +1,10 @@
-import { useState, useCallback, type FormEvent, type ChangeEvent } from 'react'
+import { useState, useCallback, useEffect, type FormEvent, type ChangeEvent } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useCart } from '../context/CartContext'
-import type { CheckoutThanksState, ShippingDetails } from '../types/checkoutState'
+import { useAuth } from '../context/AuthContext'
+import type { CheckoutPaymentState, ShippingDetails } from '../types/checkoutState'
+import { generateOrderRef, generatePayinOrderId } from '../utils/payinOrderId'
 
 function formatInr(n: number) {
   return new Intl.NumberFormat('en-IN', {
@@ -26,9 +28,24 @@ const initialForm: ShippingDetails = {
 export function CheckoutPage() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { linesWithProduct, subtotal, clearCart } = useCart()
+  const { linesWithProduct, subtotal } = useCart()
+  const { user } = useAuth()
   const [form, setForm] = useState<ShippingDetails>(initialForm)
   const [busy, setBusy] = useState(false)
+
+  useEffect(() => {
+    if (!user) return
+    setForm({
+      fullName: user.fullName,
+      email: user.email,
+      phone: user.phone,
+      addressLine1: user.addressLine1,
+      addressLine2: user.addressLine2 || '',
+      city: user.city,
+      state: user.state,
+      pinCode: user.pinCode,
+    })
+  }, [user])
 
   const checkoutSnapshot = (location.state as { itemCount?: number; subtotal?: number } | null) ?? null
   const itemCountFromCart = linesWithProduct.reduce((n, { line }) => n + line.qty, 0)
@@ -46,22 +63,21 @@ export function CheckoutPage() {
       e.preventDefault()
       if (itemCount === 0 || busy) return
       setBusy(true)
-      const orderId = `BBN-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`
-      const state: CheckoutThanksState = {
-        orderId,
+      const paymentState: CheckoutPaymentState = {
+        orderRef: generateOrderRef(),
+        payinOrderId: generatePayinOrderId(),
         subtotal: subtotalAmount,
         itemCount,
         shipping: { ...form },
       }
       try {
-        await new Promise((r) => setTimeout(r, 400))
-        clearCart()
-        navigate('/checkout/thanks', { replace: true, state })
+        await new Promise((r) => setTimeout(r, 200))
+        navigate('/checkout/payment', { state: paymentState })
       } finally {
         setBusy(false)
       }
     },
-    [itemCount, busy, subtotalAmount, form, clearCart, navigate],
+    [itemCount, busy, subtotalAmount, form, navigate],
   )
 
   if (itemCount === 0) {
@@ -100,14 +116,13 @@ export function CheckoutPage() {
               ← Back to cart
             </Link>
             <h2 className="checkout-brand-title">Secure Checkout</h2>
-            <p className="checkout-brand-lead">
-              You are one step away from completing your order. Fill in shipping details and we will place a demo
-              order instantly.
+            <p className="checkout-brand-lead checkout-cursive-body">
+              Enter your delivery details, then choose Cash on Delivery or pay online securely.
             </p>
             <ul className="checkout-brand-points">
-              <li>Verified item summary before order placement</li>
-              <li>Delivery details saved only for this demo flow</li>
-              <li>No live payment gateway connected yet</li>
+              <li>Verified item summary before payment</li>
+              <li>Online UPI payments via UrbanRupee</li>
+              <li>COD available across India</li>
             </ul>
             <div className="checkout-page-summary" aria-label="Order summary">
               <span>
@@ -130,6 +145,12 @@ export function CheckoutPage() {
               </h1>
               <p className="checkout-page-lead">
                 Enter your address and contact information to continue.
+                {!user && (
+                  <>
+                    {' '}
+                    <Link to="/login">Log in</Link> to auto-fill saved details.
+                  </>
+                )}
               </p>
             </header>
 
@@ -255,7 +276,7 @@ export function CheckoutPage() {
                   disabled={busy}
                   aria-busy={busy}
                 >
-                  {busy ? 'Placing order…' : 'Place order'}
+                  {busy ? 'Continuing…' : 'Continue to payment'}
                 </button>
                 <Link to="/cart" className="checkout-cancel-link">
                   Return to cart

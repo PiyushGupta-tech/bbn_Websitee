@@ -4,3 +4,6 @@ dist
 *.local
 .env
 .env.*
+payin-secrets.php
+auth-secrets.php
+server/data/

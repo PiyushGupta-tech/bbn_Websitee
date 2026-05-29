@@ -1,2 +1,3 @@
-# Netlify / similar: SPA fallback so deep links (e.g. /pages/shipping-policy) load the app
+# Netlify / similar: SPA fallback — do NOT rewrite /api (must hit PHP or backend)
+/api/*  200
 /*    /index.html   200

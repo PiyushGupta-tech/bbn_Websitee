@@ -2,120 +2,119 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from 'react'
+import {
+  apiAdminLogin,
+  apiLogin,
+  apiLogout,
+  apiMe,
+  apiRegister,
+  apiUpdateProfile,
+  getStoredToken,
+} from '../api/auth'
+import type { AdminProfile, SignUpPayload, UserProfile } from '../types/auth'
 
-const STORAGE_USERS = 'bbn-auth-users-v1'
-const STORAGE_SESSION = 'bbn-auth-session-v1'
-
-type UserRecord = { email: string; password: string }
-
-export type AuthUser = { email: string }
+type AuthState =
+  | { status: 'loading' }
+  | { status: 'guest' }
+  | { status: 'customer'; user: UserProfile }
+  | { status: 'admin'; admin: AdminProfile }
 
 interface AuthContextValue {
-  user: AuthUser | null
-  login: (email: string, password: string) => { ok: true } | { ok: false; message: string }
-  signUp: (email: string, password: string) => { ok: true } | { ok: false; message: string }
-  logout: () => void
+  state: AuthState
+  user: UserProfile | null
+  admin: AdminProfile | null
+  loading: boolean
+  login: (loginId: string, password: string) => Promise<void>
+  signUp: (payload: SignUpPayload) => Promise<void>
+  adminLogin: (email: string, password: string) => Promise<void>
+  updateProfile: (patch: Partial<UserProfile>) => Promise<void>
+  logout: () => Promise<void>
+  refresh: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
 
-function loadUsers(): UserRecord[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_USERS)
-    if (!raw) return []
-    const parsed = JSON.parse(raw) as unknown
-    if (!Array.isArray(parsed)) return []
-    return parsed.filter(
-      (row): row is UserRecord =>
-        typeof row === 'object' &&
-        row !== null &&
-        typeof (row as UserRecord).email === 'string' &&
-        typeof (row as UserRecord).password === 'string'
-    )
-  } catch {
-    return []
-  }
-}
-
-function saveUsers(users: UserRecord[]) {
-  localStorage.setItem(STORAGE_USERS, JSON.stringify(users))
-}
-
-function loadSession(): AuthUser | null {
-  try {
-    const raw = localStorage.getItem(STORAGE_SESSION)
-    if (!raw) return null
-    const parsed = JSON.parse(raw) as unknown
-    if (
-      typeof parsed === 'object' &&
-      parsed !== null &&
-      typeof (parsed as AuthUser).email === 'string'
-    ) {
-      return { email: (parsed as AuthUser).email }
-    }
-    return null
-  } catch {
-    return null
-  }
-}
-
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<AuthUser | null>(() =>
-    typeof window !== 'undefined' ? loadSession() : null
+  const [state, setState] = useState<AuthState>(() =>
+    getStoredToken() ? { status: 'loading' } : { status: 'guest' },
   )
 
-  const persistSession = useCallback((next: AuthUser | null) => {
-    if (next) localStorage.setItem(STORAGE_SESSION, JSON.stringify(next))
-    else localStorage.removeItem(STORAGE_SESSION)
-    setUser(next)
+  const refresh = useCallback(async () => {
+    const token = getStoredToken()
+    if (!token) {
+      setState({ status: 'guest' })
+      return
+    }
+    try {
+      const data = await apiMe()
+      if (!data || data.ok === false) {
+        setState({ status: 'guest' })
+        return
+      }
+      if (data.role === 'admin' && data.admin) {
+        setState({ status: 'admin', admin: data.admin })
+        return
+      }
+      if (data.role === 'customer' && data.user) {
+        setState({ status: 'customer', user: data.user })
+        return
+      }
+      setState({ status: 'guest' })
+    } catch {
+      setState({ status: 'guest' })
+    }
   }, [])
 
-  const login = useCallback(
-    (email: string, password: string): { ok: true } | { ok: false; message: string } => {
-      const e = email.trim().toLowerCase()
-      if (!e) return { ok: false, message: 'Please enter your email.' }
-      if (!password) return { ok: false, message: 'Please enter your password.' }
-      const users = loadUsers()
-      const found = users.find((u) => u.email === e)
-      if (!found || found.password !== password) {
-        return { ok: false, message: 'Invalid email or password.' }
-      }
-      persistSession({ email: e })
-      return { ok: true }
-    },
-    [persistSession]
-  )
+  useEffect(() => {
+    void refresh()
+  }, [refresh])
 
-  const signUp = useCallback(
-    (email: string, password: string): { ok: true } | { ok: false; message: string } => {
-      const e = email.trim().toLowerCase()
-      if (!e) return { ok: false, message: 'Please enter your email.' }
-      if (password.length < 6) {
-        return { ok: false, message: 'Password must be at least 6 characters.' }
-      }
-      const users = loadUsers()
-      if (users.some((u) => u.email === e)) {
-        return { ok: false, message: 'An account with this email already exists.' }
-      }
-      saveUsers([...users, { email: e, password }])
-      persistSession({ email: e })
-      return { ok: true }
-    },
-    [persistSession]
-  )
+  const login = useCallback(async (loginId: string, password: string) => {
+    const { user } = await apiLogin(loginId, password)
+    setState({ status: 'customer', user })
+  }, [])
 
-  const logout = useCallback(() => {
-    persistSession(null)
-  }, [persistSession])
+  const signUp = useCallback(async (payload: SignUpPayload) => {
+    const { user } = await apiRegister(payload)
+    setState({ status: 'customer', user })
+  }, [])
 
-  const value = useMemo(
-    () => ({ user, login, signUp, logout }),
-    [user, login, signUp, logout]
-  )
+  const adminLogin = useCallback(async (email: string, password: string) => {
+    const { admin } = await apiAdminLogin(email, password)
+    setState({ status: 'admin', admin })
+  }, [])
+
+  const updateProfile = useCallback(async (patch: Partial<UserProfile>) => {
+    const user = await apiUpdateProfile(patch)
+    setState({ status: 'customer', user })
+  }, [])
+
+  const logout = useCallback(async () => {
+    await apiLogout()
+    setState({ status: 'guest' })
+  }, [])
+
+  const value = useMemo<AuthContextValue>(() => {
+    const user = state.status === 'customer' ? state.user : null
+    const admin = state.status === 'admin' ? state.admin : null
+    return {
+      state,
+      user,
+      admin,
+      loading: state.status === 'loading',
+      login,
+      signUp,
+      adminLogin,
+      updateProfile,
+      logout,
+      refresh,
+    }
+  }, [state, login, signUp, adminLogin, updateProfile, logout, refresh])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

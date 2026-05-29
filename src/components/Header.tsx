@@ -217,13 +217,13 @@ export function Header() {
             <div className="header-auth">
               {user ? (
                 <>
-                  <span className="header-auth-greeting" title={user.email}>
-                    Hi, {user.email.split('@')[0]}
-                  </span>
+                  <Link to="/account" className="header-auth-greeting" title={user.email}>
+                    Hi, {user.fullName.split(' ')[0]}
+                  </Link>
                   <button
                     type="button"
                     className="header-auth-btn"
-                    onClick={() => logout()}
+                    onClick={() => void logout()}
                   >
                     Log out
                   </button>
@@ -340,7 +340,7 @@ export function Header() {
                   setOpen(false)
                 }}
               >
-                Log out ({user.email.split('@')[0]})
+                Log out ({user.fullName.split(' ')[0]})
               </button>
             )}
             {megaNav.map((item) => (

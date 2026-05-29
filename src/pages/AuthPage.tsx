@@ -3,62 +3,52 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useAuth } from '../context/AuthContext'
 
-const benefits = [
-  'Sync your wishlist on this device',
-  'Faster checkout with a saved profile (demo)',
-  'Early access to edits & new collections',
-]
-
-function AuthBenefits() {
-  return (
-    <ul className="auth-benefits" aria-label="Member benefits">
-      {benefits.map((text) => (
-        <li key={text}>
-          <span className="auth-benefit-icon" aria-hidden>
-            ✓
-          </span>
-          {text}
-        </li>
-      ))}
-    </ul>
-  )
+const emptyProfile = {
+  fullName: '',
+  email: '',
+  phone: '',
+  password: '',
+  addressLine1: '',
+  addressLine2: '',
+  city: '',
+  state: '',
+  pinCode: '',
 }
 
 export function AuthPage() {
   const { pathname } = useLocation()
   const isSignUp = pathname === '/signup'
-  const { login, signUp, user } = useAuth()
+  const { login, signUp, user, loading } = useAuth()
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
+  const [form, setForm] = useState(emptyProfile)
+  const [loginId, setLoginId] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [busy, setBusy] = useState(false)
 
-  if (user) {
+  if (!loading && user) {
     return (
       <section className="auth-section" aria-labelledby="auth-signed-in-heading">
         <div className="auth-section-bg" aria-hidden />
         <div className="container auth-section-inner">
-          <motion.div
-            className="auth-shell auth-shell--single"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          >
+          <motion.div className="auth-shell auth-shell--single" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
             <div className="auth-panel auth-panel--centered">
               <div className="auth-success-icon" aria-hidden>
                 ✓
               </div>
               <h1 id="auth-signed-in-heading" className="auth-panel-title">
-                You&apos;re signed in
+                Welcome, {user.fullName}
               </h1>
-              <p className="auth-panel-lead auth-email-display">{user.email}</p>
+              <p className="auth-panel-lead auth-email-display">
+                {user.email} · {user.phone}
+              </p>
               <div className="auth-actions-stack">
-                <Link to="/shop" className="btn-primary btn-dark auth-cta-primary">
-                  Continue shopping
+                <Link to="/account" className="btn-primary btn-dark auth-cta-primary">
+                  My account
                 </Link>
-                <Link to="/" className="auth-cta-secondary">
-                  Back to home
+                <Link to="/shop" className="auth-cta-secondary">
+                  Continue shopping
                 </Link>
               </div>
             </div>
@@ -68,79 +58,82 @@ export function AuthPage() {
     )
   }
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setError(null)
-    const result = isSignUp ? signUp(email, password) : login(email, password)
-    if (result.ok) {
+    setBusy(true)
+    try {
+      if (isSignUp) {
+        await signUp({
+          email: form.email,
+          phone: form.phone,
+          password: form.password,
+          fullName: form.fullName,
+          addressLine1: form.addressLine1,
+          addressLine2: form.addressLine2,
+          city: form.city,
+          state: form.state,
+          pinCode: form.pinCode,
+        })
+      } else {
+        await login(loginId, password)
+      }
       navigate('/', { replace: true })
-    } else {
-      setError(result.message)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong.')
+    } finally {
+      setBusy(false)
     }
   }
+
+  const field = (key: keyof typeof form, label: string, opts?: { type?: string; placeholder?: string }) => (
+    <div className="auth-field">
+      <label className="auth-label" htmlFor={`auth-${key}`}>
+        {label}
+      </label>
+      <input
+        id={`auth-${key}`}
+        className="auth-input"
+        type={opts?.type || 'text'}
+        placeholder={opts?.placeholder}
+        value={form[key]}
+        onChange={(ev) => setForm((p) => ({ ...p, [key]: ev.target.value }))}
+        required
+      />
+    </div>
+  )
 
   return (
     <section className="auth-section" aria-labelledby="auth-main-heading">
       <div className="auth-section-bg" aria-hidden />
       <div className="container auth-section-inner">
-        <motion.div
-          className="auth-shell"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.35 }}
-        >
-          <aside className="auth-brand" aria-labelledby="auth-brand-heading">
+        <motion.div className="auth-shell" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+          <aside className="auth-brand">
             <Link to="/" className="auth-brand-logo-link">
               <span className="auth-brand-logo">bbn</span>
               <span className="auth-brand-logo-sub">ethnic wear</span>
             </Link>
-            <h2 id="auth-brand-heading" className="auth-brand-title">
-              {isSignUp ? 'Join the bbn circle' : <span className="auth-welcome-back">Welcome back</span>}
+            <h2 className="auth-brand-title">
+              {isSignUp ? 'Create your account' : <span className="auth-welcome-back">Welcome back</span>}
             </h2>
             <p className="auth-brand-lead">
               {isSignUp
-                ? 'Create an account to personalize your experience across sarees, lehengas, and more.'
-                : 'Sign in to continue where you left off — your wishlist and preferences stay on this device.'}
+                ? 'One account for orders, faster checkout, and saved delivery details — like Flipkart or Amazon.'
+                : 'Sign in with your email or 10-digit mobile number and password.'}
             </p>
-            <AuthBenefits />
-            <div className="auth-brand-footer">
-              <Link to="/shop" className="auth-text-link">
-                Browse new arrivals →
-              </Link>
-            </div>
           </aside>
 
-          <motion.div
-            className="auth-panel"
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-          >
+          <motion.div className="auth-panel" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}>
             <p className="auth-eyebrow">Account</p>
             <h1 id="auth-main-heading" className="auth-panel-title">
-              {isSignUp ? 'Create your account' : 'Log in'}
+              {isSignUp ? 'Sign up' : 'Log in'}
             </h1>
-            <p className="auth-panel-lead">
-              {isSignUp
-                ? 'Use a real email format — this is a demo; data stays in your browser only.'
-                : 'Enter the email and password you used when you signed up.'}
-            </p>
 
-            <div className="auth-tabs" role="tablist" aria-label="Sign in or register">
-              <Link
-                to="/login"
-                className={`auth-tab ${!isSignUp ? 'auth-tab--active' : ''}`}
-                role="tab"
-                aria-selected={!isSignUp}
-              >
+            <div className="auth-tabs" role="tablist">
+              <Link to="/login" className={`auth-tab ${!isSignUp ? 'auth-tab--active' : ''}`}>
                 Log in
               </Link>
-              <Link
-                to="/signup"
-                className={`auth-tab ${isSignUp ? 'auth-tab--active' : ''}`}
-                role="tab"
-                aria-selected={isSignUp}
-              >
+              <Link to="/signup" className={`auth-tab ${isSignUp ? 'auth-tab--active' : ''}`}>
                 Sign up
               </Link>
             </div>
@@ -151,70 +144,87 @@ export function AuthPage() {
                   {error}
                 </p>
               )}
-              <div className="auth-field">
-                <label className="auth-label" htmlFor="auth-email">
-                  Email address
-                </label>
-                <input
-                  id="auth-email"
-                  className="auth-input"
-                  type="email"
-                  autoComplete="email"
-                  placeholder="you@example.com"
-                  value={email}
-                  onChange={(ev) => setEmail(ev.target.value)}
-                  required
-                />
-              </div>
-              <div className="auth-field">
-                <div className="auth-label-row">
-                  <label className="auth-label" htmlFor="auth-password">
-                    Password
-                  </label>
-                  {isSignUp && (
-                    <span className="auth-hint" id="auth-pw-hint">
-                      Min. 6 characters
-                    </span>
-                  )}
-                </div>
-                <div className="auth-input-wrap">
-                  <input
-                    id="auth-password"
-                    className="auth-input auth-input--with-toggle"
-                    type={showPassword ? 'text' : 'password'}
-                    autoComplete={isSignUp ? 'new-password' : 'current-password'}
-                    placeholder={isSignUp ? 'Create a password' : '••••••••'}
-                    value={password}
-                    onChange={(ev) => setPassword(ev.target.value)}
-                    required
-                    minLength={isSignUp ? 6 : undefined}
-                    aria-describedby={isSignUp ? 'auth-pw-hint' : undefined}
-                  />
-                  <button
-                    type="button"
-                    className="auth-toggle-password"
-                    onClick={() => setShowPassword((v) => !v)}
-                    aria-label={showPassword ? 'Hide password' : 'Show password'}
-                  >
-                    {showPassword ? 'Hide' : 'Show'}
-                  </button>
-                </div>
-              </div>
 
-              <button type="submit" className="btn-primary btn-dark auth-submit">
-                {isSignUp ? 'Create account' : 'Log in'}
+              {isSignUp ? (
+                <>
+                  {field('fullName', 'Full name', { placeholder: 'Adarsh Sharma' })}
+                  {field('email', 'Email', { type: 'email', placeholder: 'you@example.com' })}
+                  {field('phone', 'Mobile number', { type: 'tel', placeholder: '10-digit mobile' })}
+                  {field('addressLine1', 'Address line 1', { placeholder: 'House no., street' })}
+                  {field('addressLine2', 'Address line 2 (optional)', { placeholder: 'Landmark' })}
+                  <div className="auth-form-row">
+                    {field('city', 'City')}
+                    {field('state', 'State')}
+                  </div>
+                  {field('pinCode', 'PIN code', { placeholder: '6 digits' })}
+                  <div className="auth-field">
+                    <label className="auth-label" htmlFor="auth-password">
+                      Password
+                    </label>
+                    <input
+                      id="auth-password"
+                      className="auth-input"
+                      type={showPassword ? 'text' : 'password'}
+                      autoComplete="new-password"
+                      value={form.password}
+                      onChange={(ev) => setForm((p) => ({ ...p, password: ev.target.value }))}
+                      required
+                      minLength={6}
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="auth-field">
+                    <label className="auth-label" htmlFor="auth-login-id">
+                      Email or mobile
+                    </label>
+                    <input
+                      id="auth-login-id"
+                      className="auth-input"
+                      type="text"
+                      autoComplete="username"
+                      placeholder="email or 10-digit phone"
+                      value={loginId}
+                      onChange={(ev) => setLoginId(ev.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="auth-field">
+                    <div className="auth-label-row">
+                      <label className="auth-label" htmlFor="auth-password">
+                        Password
+                      </label>
+                      <button
+                        type="button"
+                        className="auth-toggle-password"
+                        onClick={() => setShowPassword((v) => !v)}
+                      >
+                        {showPassword ? 'Hide' : 'Show'}
+                      </button>
+                    </div>
+                    <input
+                      id="auth-password"
+                      className="auth-input"
+                      type={showPassword ? 'text' : 'password'}
+                      autoComplete="current-password"
+                      value={password}
+                      onChange={(ev) => setPassword(ev.target.value)}
+                      required
+                    />
+                  </div>
+                </>
+              )}
+
+              <button type="submit" className="btn-primary btn-dark auth-submit" disabled={busy}>
+                {busy ? 'Please wait…' : isSignUp ? 'Create account' : 'Log in'}
               </button>
             </form>
 
             <p className="auth-footnote">
-              <strong>Demo mode:</strong> accounts are stored locally in your browser (localStorage), not on a
-              server. For production, connect a real auth provider.
-            </p>
-
-            <p className="auth-alt">
-              Prefer to browse first?{' '}
-              <Link to="/shop" className="auth-text-link">
-                Shop the collection
+              Staff?{' '}
+              <Link to="/admin/login" className="auth-text-link">
+                Admin login
               </Link>
             </p>
           </motion.div>

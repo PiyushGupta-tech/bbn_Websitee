@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/initiate.js": {
+      "maxDuration": 30
+    }
+  }
+}

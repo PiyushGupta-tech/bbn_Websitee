@@ -41,11 +41,31 @@ export default defineConfig({
     },
     proxy: {
       '/lavante-vizup': vizupProxy(),
+      '/api/payin-go.php': { target: 'https://bbnshop.in', changeOrigin: true, secure: true },
+      '/api/urban-bridge.php': { target: 'https://bbnshop.in', changeOrigin: true, secure: true },
+      '/api/urban-status.php': { target: 'https://bbnshop.in', changeOrigin: true, secure: true },
+      '/api/payin-health.php': { target: 'https://bbnshop.in', changeOrigin: true, secure: true },
+      /** Auth: use live PHP API so `npm run dev` works without dev:server */
+      '/api/auth': { target: 'https://bbnshop.in', changeOrigin: true, secure: true },
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+      },
     },
   },
   preview: {
     proxy: {
       '/lavante-vizup': vizupProxy(),
+      '/api/payin-go.php': { target: 'https://bbnshop.in', changeOrigin: true, secure: true },
+      '/api/urban-bridge.php': { target: 'https://bbnshop.in', changeOrigin: true, secure: true },
+      '/api/urban-status.php': { target: 'https://bbnshop.in', changeOrigin: true, secure: true },
+      '/api/payin-health.php': { target: 'https://bbnshop.in', changeOrigin: true, secure: true },
+      /** Auth: use live PHP API so `npm run dev` works without dev:server */
+      '/api/auth': { target: 'https://bbnshop.in', changeOrigin: true, secure: true },
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+      },
     },
   },
 })
